@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -23,13 +23,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 })
 
+.config(function ($ionicConfigProvider) {
+     $ionicConfigProvider.tabs.position('bottom');
+})
+
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
-  $stateProvider
+    $stateProvider
+
+   // setup an abstract state for the tabs directive
+    .state('login', {
+        url: '/login',
+        templateUrl: 'Login/login.html',
+        controller: 'LoginCtrl'
+    })
 
   // setup an abstract state for the tabs directive
     .state('tab', {
@@ -77,9 +88,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         controller: 'AccountCtrl'
       }
     }
+  })
+  .state('register', {
+      url: '/register',
+      templateUrl: 'Login/register.html',
+      controller: 'LoginCtrl'
+
+  })
+   .state('viewChat', {
+       url: '/viewChat',
+       templateUrl: 'templates/viewChat.html'
+
+   })
+  .state('virtualcls', {
+      url: '/virtualcls',
+      templateUrl: 'Classroom/classroom.html',
+      controller: 'VirtualclsCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/login');
 
 });

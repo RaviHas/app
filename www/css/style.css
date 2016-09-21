@@ -1,1 +1,8 @@
-﻿/* Empty. Add your own CSS if you like */
+﻿.title-image {
+    margin-top: 8px;
+    height: 32px;
+}
+.button button-icon{
+    margin-right: 15px;
+}
+

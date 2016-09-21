@@ -1,9 +1,39 @@
-<ion-view view-title="Account">
-  <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
-    </ion-toggle>
-    </ion-list>
-  </ion-content>
+<ion-view>
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    </ion-nav-buttons>
+    <ion-nav-title right-buttons="rightButtons">
+        <img class="title-image" src="img/logo.png" />
+    </ion-nav-title>
+    <ion-content>
+        <div class="list">
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Child
+                </div>
+                <select>
+                    <option selected>Sajith Chamara</option>
+                    <option>Chamara Madushan</option>
+                </select>
+            </label>
+
+        </div>
+
+        <div class="list card">
+            <div class="item item-avatar">
+                <img src="img\ben.png">
+                <h2>Sajith Chamara</h2>
+                <p>Level <i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i></p>
+            </div>
+            <div class="item item-image">
+                <img src="img\chart.png">
+            </div>
+            <a ng-click="goToCls()" class="item item-icon-left assertive" >
+                <i class="icon ion-ios-book"></i>
+                Go to Class Room
+            </a>
+        </div>
+    </ion-content>
 </ion-view>
+
