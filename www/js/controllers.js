@@ -4,45 +4,62 @@ angular.module('starter.controllers', ['firebase'])
     screen.unlockOrientation();
 })
 
-.controller('ChatsCtrl', ['$scope', '$firebaseArray', '$state', '$rootScope',
-        function ($scope, $firebaseArray, $rootScope) {
+.controller('ChatsCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope',
+        function ($scope, $firebaseArray, $rootScope, $state) {
             screen.unlockOrientation();
-            $ionicSideMenuDelegate.canDragContent(true);
-            var ref = new Firebase('https://kiddo-56f35.firebaseio.com/');
+
+            var ref = new Firebase('https://kiddo-56f35.firebaseio.com/chat');
             var sync = $firebaseArray(ref);
             $scope.chats = sync;
             
             $scope.sendChat = function (chat) {
                 $scope.chats.$add({
                     user: 'Ravindu',
-                    message: chat.message
+                    message: chat.message,
                 });
                 chat.message = "";
             }
 
 
-            $scope.sendReply = function (chat, reply) {
-                chat.reply[1] = {
-                    user: 'Rayan',
-                    message: reply.message
-                };
-                $scope.chats.$save(chat).then(function (sync) {
-                    sync.key() === chat.$id; // true
-                });
-                chat.message = "";
-                reply.message = "";
-            }
-
-            $scope.viewTopic = function (chat, $state) {
-                $scope.viewChat = chat
-                $state.go('viewChat')
+            $scope.viewChat = function (chat,$state) {
+                $state.go('virtualcls');
+                console.log(chat);
+     
             }
   
 }])
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
+.controller('ChatDetailCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope',
+    function ($scope, $firebaseArray, $rootScope, $stateParams) {
+        var ref = new Firebase('https://kiddo-56f35.firebaseio.com/chat');
+        var sync = $firebaseArray(ref);
+        sync.$loaded().then(function (sync) {
+            $scope.chats = sync.$getRecord(($stateParams.chatId));
+        });
+
+        $scope.sendReply = function (chats, reply) {
+
+            var vreply = {
+                user: 'Rayan',
+                message: reply.message 
+            };
+            try{
+                chats.reply.push(vreply)
+            }
+            catch (err) {
+                var arr = [];
+                arr.push(vreply);
+                chats.push("reply", arr);
+            }
+            $scope.chats.$save(chat).then(function (sync) {
+                sync.key() === chat.$id; // true
+            });
+            chat.message = "";
+            reply.message = "";
+        }
+
+       
+}])
 
 
 .controller('VirtualclsCtrl', function ($scope, $state) {
@@ -67,6 +84,53 @@ angular.module('starter.controllers', ['firebase'])
     };
 
 })
+
+    .controller('storybookCtrl', function ($scope, $state, $ionicSideMenuDelegate) {
+        screen.lockOrientation('landscape');
+
+        $scope.login = function () {
+            console.log("adfsfasf")
+            $state.go('storybook');
+        }
+
+        $scope.$on('$ionicView.leave', function () {
+            screen.unlockOrientation();
+            $ionicSideMenuDelegate.canDragContent(true);
+        });
+
+    })
+
+        .controller('storybookreaderCtrl', function ($scope, $state, $ionicSideMenuDelegate) {
+            screen.lockOrientation('landscape');
+            $ionicSideMenuDelegate.canDragContent(true);
+
+            $scope.options = {
+                loop: false,
+                effect: 'fade',
+                speed: 500,
+            }
+
+            $scope.$on("$ionicSlides.sliderInitialized", function (event, data) {
+                // data.slider is the instance of Swiper
+                $scope.slider = data.slider;
+            });
+
+            $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
+                console.log('Slide change is beginning');
+            });
+
+            $scope.$on("$ionicSlides.slideChangeEnd", function (event, data) {
+                // note: the indexes are 0-based
+                $scope.activeIndex = data.activeIndex;
+                $scope.previousIndex = data.previousIndex;
+            });
+
+            $scope.$on('$ionicView.leave', function () {
+                screen.unlockOrientation();
+                $ionicSideMenuDelegate.canDragContent(true);
+            });
+
+        })
 
 .controller('LoginCtrl', function ($scope, $ionicPopup, $state) {
     $scope.login = function() {
