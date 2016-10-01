@@ -95,6 +95,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       controller: 'LoginCtrl'
 
   })
+
+  .state('registerChild', {
+      url: '/registerChild',
+      templateUrl: 'Login/registerChild.html',
+      controller: 'LoginCtrl'
+
+   })
+
    .state('viewChat', {
        url: '/viewChat',
        templateUrl: 'templates/viewChat.html'
