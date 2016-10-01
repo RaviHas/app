@@ -93,26 +93,37 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       url: '/register',
       templateUrl: 'Login/register.html',
       controller: 'LoginCtrl'
-
   })
 
   .state('registerChild', {
       url: '/registerChild',
       templateUrl: 'Login/registerChild.html',
       controller: 'LoginCtrl'
-
    })
 
-   .state('viewChat', {
-       url: '/viewChat',
-       templateUrl: 'templates/viewChat.html'
-
-   })
   .state('virtualcls', {
       url: '/virtualcls',
       templateUrl: 'Classroom/classroom.html',
       controller: 'VirtualclsCtrl'
-  });
+  })
+   .state('viewChat', {
+       url: '/viewChat',
+       templateUrl: 'templates/viewChat.html',
+       controller: 'ChatsCtrl'
+
+   })
+   .state('storybook', {
+       url: '/storybook',
+       templateUrl: 'templates/storybook.html',
+       controller: 'storybookCtrl'
+
+   })
+    .state('storybookreader', {
+        url: '/storybookreader',
+        templateUrl: 'templates/storybookreader.html',
+        controller: 'storybookreaderCtrl'
+
+    });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

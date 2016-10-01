@@ -7,7 +7,7 @@
     </ion-nav-title>
     <ion-content>
         <div class="list">
-            <a class="item item-avatar" ng-repeat="chat in chats" ng-click="viewTopic(chat)">
+            <a class="item item-avatar" ng-repeat="chat in chats" href="#/tab/chats/{{chat.$id}}">
                 <img>
                 <h2>{{chat.user}}</h2>
                 <p>{{chat.message}}</p>
