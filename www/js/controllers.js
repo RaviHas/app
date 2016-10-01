@@ -112,6 +112,16 @@ angular.module('starter.controllers', ['firebase'])
 
     })
 
+    .controller('storybookcontentCtrl', function ($scope, $state, $ionicSideMenuDelegate) {
+        screen.lockOrientation('landscape');
+
+        $scope.$on('$ionicView.leave', function () {
+            screen.unlockOrientation();
+            $ionicSideMenuDelegate.canDragContent(true);
+         });
+
+      })
+
         .controller('storybookreaderCtrl', function ($scope, $state, $ionicSideMenuDelegate) {
             screen.lockOrientation('landscape');
             $ionicSideMenuDelegate.canDragContent(true);
