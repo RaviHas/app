@@ -118,6 +118,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
        controller: 'storybookCtrl'
 
    })
+   .state('storybookcontent', {
+           url: '/storybookcontent',
+           templateUrl: 'templates/storybookcontent.html',
+           controller: 'storybookcontentCtrl'
+
+       })
     .state('storybookreader', {
         url: '/storybookreader',
         templateUrl: 'templates/storybookreader.html',
