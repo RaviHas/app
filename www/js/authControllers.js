@@ -22,22 +22,34 @@ angular.module('starter.controllers', ['firebase'])
 
     $scope.login = function(data) {
 
-        var username=data.username;
-        console.log("888888888888888888888888888888888888888888888888888888888888");
-        console.log(username);
+      var email = data.username;
+      var pass = data.password;
+      console.log("Email:", email);
+      console.log("pass:", pass);
 
-        var alertPopup = $ionicPopup.alert({
-            title: 'Alert',
-            template: 'Login Success!'
-        });
+      var user =firebase.auth().signInWithEmailAndPassword(email, pass).then(function(user){
 
-        $state.go('tab.dash');
-    }
+          console.log('logged in:', user);
+          $state.go('tab.dash');
+
+      }).catch(function(error) {
+                      // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Invalid Login',
+                    template: errorMessage
+                });//alert
+
+      });//catch
+
+    }//$scope.login
+
     $scope.register = function () {
 
       $state.go('register');
 
-    }
+    }//$scope.register
 
     $scope.addChildAccount = function (data) {
 
@@ -60,7 +72,7 @@ angular.module('starter.controllers', ['firebase'])
           template: 'Child Account Successfully Created!'
       });
       $state.go('tab.dash');
-    };
+    };//$scope.addChildAccount
 
     $scope.addUserEmail = function (data) {
 
@@ -68,13 +80,24 @@ angular.module('starter.controllers', ['firebase'])
         var pass = data.password;
 
           console.log("Email:", email);
-            console.log("pass:", pass);
+          console.log("pass:", pass);
 
-        firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
+        firebase.auth().createUserWithEmailAndPassword(email, pass).then(function(user){
+            console.log('logged in:', user);
+            login(data);
+          })
+          .catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
-          // ...
+          var alertPopup = $ionicPopup.alert({
+              title: 'Invalid SignUp',
+              template: errorCode
+          });//alert
+
 			});
+
+
+
 		};
 	});
