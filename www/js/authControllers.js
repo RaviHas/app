@@ -31,6 +31,7 @@ angular.module('starter.controllers', ['firebase'])
 
           console.log('logged in:', user);
           $state.go('tab.dash');
+          console.log(user.created);
 
       }).catch(function(error) {
                       // Handle Errors here.
@@ -97,7 +98,10 @@ angular.module('starter.controllers', ['firebase'])
 
 			});
 
+		};//$scope.addUserEmail
 
-
-		};
+    $scope.userLogged = function()
+    {
+      console.log("hjhjhjk--------------------");
+    }
 	});
