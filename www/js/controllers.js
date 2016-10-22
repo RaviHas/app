@@ -153,6 +153,7 @@ angular.module('starter.controllers', ['firebase'])
 
         })
 
+/*------------------------------------------login controller-------------------------------------------------*/
         .controller('LoginCtrl', function ($scope, $ionicPopup, $state, Child,User) {
 
                   $scope.user=User;
@@ -169,7 +170,8 @@ angular.module('starter.controllers', ['firebase'])
 
                 console.log('logged in:', user);
                 $state.go('tab.dash');
-                console.log(user.created);
+                console.log('user',user.uid);
+                console.log('fkjkjkj',firebase.auth().currentUser);
 
             }).catch(function(error) {
                             // Handle Errors here.
@@ -215,15 +217,18 @@ angular.module('starter.controllers', ['firebase'])
 
           $scope.addUserEmail = function (data) {
 
-              var email = data.email;
-              var pass = data.password;
+                var email = data.email;
+                var pass = data.password;
+                var name = data.username;
 
                 console.log("Email:", email);
                 console.log("pass:", pass);
+                console.log("name:", name );
 
-              firebase.auth().createUserWithEmailAndPassword(email, pass).then(function(user){
-                  console.log('logged in:', user);
-                  login(data);
+                firebase.auth().createUserWithEmailAndPassword(email, pass).then(function(user){
+
+                    $state.go('tab.dash');
+
                 })
                 .catch(function(error) {
                 // Handle Errors here.
@@ -233,6 +238,7 @@ angular.module('starter.controllers', ['firebase'])
                     title: 'Invalid SignUp',
                     template: errorCode
                 });//alert
+                console.log(errorCode);
 
             });
 
