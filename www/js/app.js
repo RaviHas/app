@@ -113,21 +113,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
    })
    .state('storybook', {
+       cache: false,
        url: '/storybook',
        templateUrl: 'templates/storybook.html',
        controller: 'storybookCtrl'
 
    })
    .state('storybookcontent', {
-           url: '/storybookcontent',
-           templateUrl: 'templates/storybookcontent.html',
-           controller: 'storybookcontentCtrl'
-
-       })
+       cache:false,
+       url: '/storybook/selectedBook',
+       templateUrl: 'templates/storybookcontent.html',
+       controller: 'storybookcontentCtrl',
+       params: {
+        obj: null
+       }
+       
+        
+    })
     .state('storybookreader', {
+        cache: false,
         url: '/storybookreader',
+        cache: false,
         templateUrl: 'templates/storybookreader.html',
-        controller: 'storybookreaderCtrl'
+        controller: 'storybookreaderCtrl',
+        params: {
+            book: null
+        }
 
     });
 
