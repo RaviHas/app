@@ -81,8 +81,8 @@ angular.module('starter.controllers', ['firebase'])
     screen.lockOrientation('landscape');
 
     $scope.$on('$ionicView.leave', function () {
-        screen.unlockOrientation();
-        $ionicSideMenuDelegate.canDragContent(true);
+       // screen.unlockOrientation();
+       // $ionicSideMenuDelegate.canDragContent(true);
     });
 
 })
@@ -91,7 +91,10 @@ angular.module('starter.controllers', ['firebase'])
     var init = function () {
         screen.unlockOrientation();
     };
-
+    $scope.$on('$ionicView.enter', function () {
+        screen.unlockOrientation();
+        $ionicSideMenuDelegate.canDragContent(true);
+    });
     $scope.goToCls = function () {
         $state.go('virtualcls');
         $ionicSideMenuDelegate.canDragContent(false)
@@ -102,62 +105,60 @@ angular.module('starter.controllers', ['firebase'])
 
 
 
-    .controller('storybookCtrl', function ($scope, $state, $ionicSideMenuDelegate) {
-        screen.lockOrientation('landscape');
+    .controller('storybookCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope',
+	  function ($scope, $firebaseArray, $state, $rootScope) {
+	      screen.lockOrientation('landscape');
 
-        $scope.login = function () {
-            console.log("adfsfasf")
-            $state.go('storybook');
-        }
+	      var ref = new Firebase('https://kiddo-56f35.firebaseio.com/storybook');
+          var sync = $firebaseArray(ref);
+          $scope.storybooks = sync;
 
-        $scope.$on('$ionicView.leave', function () {
-            screen.unlockOrientation();
-            $ionicSideMenuDelegate.canDragContent(true);
-        });
+          $scope.viewBook = function (storyBook) {
+              $state.go('storybookcontent', { obj: storyBook }, {reload:true});
+              console.log(storyBook);
+          }
 
-    })
+	  }])
 
-    .controller('storybookcontentCtrl', function ($scope, $state, $ionicSideMenuDelegate) {
-        screen.lockOrientation('landscape');
-
-        $scope.$on('$ionicView.leave', function () {
-            screen.unlockOrientation();
-            $ionicSideMenuDelegate.canDragContent(true);
-        });
-
-    })
-
-        .controller('storybookreaderCtrl', function ($scope, $state, $ionicSideMenuDelegate) {
+    .controller('storybookcontentCtrl', ['$scope', '$state', '$stateParams', '$ionicHistory', '$rootScope',
+        function ($scope, $state, $stateParams, $ionicHistory) {
             screen.lockOrientation('landscape');
-            $ionicSideMenuDelegate.canDragContent(true);
+            $scope.storybook = $stateParams.obj;
+         
+        $scope.readBook = function (Book) {
+            $state.go('storybookreader', { book: Book });
+            console.log(Book);
+        } 
 
-            $scope.options = {
-                loop: false,
-                effect: 'fade',
-                speed: 500,
+      }])
+
+        .controller('storybookreaderCtrl',['$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate',
+            function ($scope, $state, $stateParams, $ionicSlideBoxDelegate) {
+            screen.lockOrientation('landscape');
+            $scope.book = $stateParams.book;
+            
+            // Called each time the slide changes
+            $scope.slideChanged = function(index) {
+                $scope.slideIndex = index;
+            };
+
+            $scope.next = function () {
+                $ionicSlideBoxDelegate.next();
+            };
+
+            $scope.previous = function () {
+                $ionicSlideBoxDelegate.previous();
+            };
+
+            $scope.backStoryContent = function (Story) {
+                $state.go('storybookcontent', { obj: Story });
             }
 
-            $scope.$on("$ionicSlides.sliderInitialized", function (event, data) {
-                // data.slider is the instance of Swiper
-                $scope.slider = data.slider;
-            });
+            $scope.backStoryBooks = function () {
+                $state.go('storybook');
+            }
 
-            $scope.$on("$ionicSlides.slideChangeStart", function (event, data) {
-                console.log('Slide change is beginning');
-            });
-
-            $scope.$on("$ionicSlides.slideChangeEnd", function (event, data) {
-                // note: the indexes are 0-based
-                $scope.activeIndex = data.activeIndex;
-                $scope.previousIndex = data.previousIndex;
-            });
-
-            $scope.$on('$ionicView.leave', function () {
-                screen.unlockOrientation();
-                $ionicSideMenuDelegate.canDragContent(true);
-            });
-
-        })
+        }])
 
 /*------------------------------------------login controller-------------------------------------------------*/
         .controller('LoginCtrl', function ($scope, $ionicPopup, $state, Child, User) {

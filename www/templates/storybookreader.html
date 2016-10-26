@@ -1,18 +1,27 @@
-﻿<ion-view hide-nav-bar="true">
+﻿<ion-view hide-nav-bar="true" >
+    <img src="img/sb_bgg.png" alt="">
     <ion-content scroll="false">
-        <ion-slides options="options" slider="data.slider">
-            <ion-slide-page>
-                <div class="box blue">
-                    <img src="http://cdn.usborne.com/catalogue/covers/eng/max_covers/9781409523352.jpg?width=160" />
+        <ion-slide-box on-slide-changed="slideChanged(index)">
+            <ion-slide ng-repeat="b in book.images">
+              <div class="row">
+                  <div class="col-sm-1">
+                    <img src="img/home-icon.png" ng-click="backStoryContent(book)" ng-show="!= book.images.length-1"/>
+                  </div>
+                  <div class="col-sm-11">
+                      <div id="i" style="background-image: url({{b}}); height:380px; width:600px; background-repeat:no-repeat; background-size: contain;">
+                        <div class="row row-center" style="padding: 150px 0;">
+                            <div class="col col-33">
+                                <img src="img/previous-icon.png" ng-click="previous()" ng-show="slideIndex > 0"/>
+                            </div>
+                            <div class="col col-33 col-offset-33">
+                                <img src="img/next-icon.png" ng-click="next()" ng-show="slideIndex != book.images.length-1"/>
+                                <img src="img/end-icon.png"  ng-click="backStoryBooks()" ng-show="slideIndex == book.images.length-1" />
+                            </div>
+                        </div>  
+                      </div>
+                  </div>
                 </div>
-            </ion-slide-page>
-            <ion-slide-page>
-                <div class="box yellow">http://a2.mzstatic.com/us/r30/Purple2/v4/a8/c2/62/a8c262a5-1d21-495b-5bb4-4418f4b4cec6/screen480x480.jpeg</div>
-            </ion-slide-page>
-            <ion-slide-page>
-                <div class="box pink">http://previews.123rf.com/images/tigatelu/tigatelu1510/tigatelu151000062/45971241-illustration-of-Classic-children-story-Hansel-and-Gretel-Stock-Vector.jpg</div>
-            </ion-slide-page>
-        </ion-slides>
+              </ion-slide>
+        </ion-slide-box>
     </ion-content>
-
 </ion-view>

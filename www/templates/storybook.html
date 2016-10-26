@@ -2,17 +2,9 @@
     <img src="img/classroom.jpg" alt="">
     <ion-content class="padding">
         <div class="row">
-            <div class="col">
-                <img src="http://cdn.usborne.com/catalogue/covers/eng/max_covers/9781409523352.jpg?width=160" />
-                <a href="#/storybook" class="button button-block button-balanced">READ</a>
-            </div>
-            <div class="col">
-                <img src="http://cdn.usborne.com/catalogue/covers/eng/max_covers/9781409523352.jpg?width=160" />
-                <a href="#/storybookcontent" class="button button-block button-balanced">READ</a>
-            </div>
-            <div class="col">
-                <img src="https://images-eu.ssl-images-amazon.com/images/I/51LV7XxO1uL._AC_UL320_SR222,320_.jpg?" style="width:140px" />
-                <a href="#/storybook" class="button button-block button-balanced">READ</a>
+            <div class="col" ng-repeat="storybook in storybooks">
+                <img src="{{storybook.images[0]}}" style="width:200px;height:200px;margin-left:10px"/>
+                <a ng-click="viewBook(storybook)" class="button button-block button-balanced">READ</a>
             </div>
         </div>
     </ion-content>
