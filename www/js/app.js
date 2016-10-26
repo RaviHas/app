@@ -118,6 +118,36 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
        controller: 'storybookCtrl'
 
    })
+    .state('grade', {
+        url: '/grade',
+        templateUrl: 'Classroom/grade.html',
+        controller: 'classroomCtrl'
+
+    })
+     
+    .state('course', {
+        cache: false,
+        url: '/course',
+        templateUrl: 'Classroom/course.html',
+        controller: 'courseCtrl',
+        params: {
+            pcourse: null
+        }
+
+    })
+    .state('subject', {
+        url: '/course/:grade',
+        templateUrl: 'Classroom/subject.html',
+        controller: 'classroomCtrl'
+
+    })
+     .state('title', {
+         cache: false,
+         url: '/course/:grade/:sub',
+         templateUrl: 'Classroom/title.html',
+         controller: 'classroomCtrl'
+
+     })
    .state('storybookcontent', {
            url: '/storybookcontent',
            templateUrl: 'templates/storybookcontent.html',
