@@ -113,21 +113,62 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
    })
    .state('storybook', {
+       cache: false,
        url: '/storybook',
        templateUrl: 'templates/storybook.html',
        controller: 'storybookCtrl'
 
    })
-   .state('storybookcontent', {
-           url: '/storybookcontent',
-           templateUrl: 'templates/storybookcontent.html',
-           controller: 'storybookcontentCtrl'
+    .state('grade', {
+        url: '/grade',
+        templateUrl: 'Classroom/grade.html',
+        controller: 'classroomCtrl'
 
-       })
+    })
+     
+    .state('course', {
+        cache: false,
+        url: '/course',
+        templateUrl: 'Classroom/course.html',
+        controller: 'courseCtrl',
+        params: {
+            pcourse: null
+        }
+
+    })
+    .state('subject', {
+        url: '/course/:grade',
+        templateUrl: 'Classroom/subject.html',
+        controller: 'classroomCtrl'
+
+    })
+     .state('title', {
+         cache: false,
+         url: '/course/:grade/:sub',
+         templateUrl: 'Classroom/title.html',
+         controller: 'classroomCtrl'
+
+     })
+   .state('storybookcontent', {
+       cache:false,
+       url: '/storybook/selectedBook',
+       templateUrl: 'templates/storybookcontent.html',
+       controller: 'storybookcontentCtrl',
+       params: {
+        obj: null
+       }
+       
+        
+    })
     .state('storybookreader', {
+        cache: false,
         url: '/storybookreader',
+        cache: false,
         templateUrl: 'templates/storybookreader.html',
-        controller: 'storybookreaderCtrl'
+        controller: 'storybookreaderCtrl',
+        params: {
+            book: null
+        }
 
     });
 
