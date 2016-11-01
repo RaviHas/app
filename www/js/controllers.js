@@ -191,11 +191,6 @@ angular.module('starter.controllers', ['firebase'])
 
                         $rootScope.username=firebase.auth().currentUser.displayName;
 
-                        var ref  = firebase.database().ref("users");
-                        console.log(firebase.auth().currentUser.displayName);
-                        console.log(firebase.auth().currentUser.photoURL);
-
-
 
                         //console.log('current---------------',currentLoggedUser);
                         //console.log('fkjkjkj',firebase.auth().currentUser);
