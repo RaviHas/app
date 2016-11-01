@@ -128,11 +128,11 @@ angular.module('starter.controllers', ['firebase'])
         function ($scope, $state, $stateParams, $ionicHistory) {
             screen.lockOrientation('landscape');
             $scope.storybook = $stateParams.obj;
-         
+
         $scope.readBook = function (Book) {
             $state.go('storybookreader', { book: Book });
             console.log(Book);
-        } 
+        }
 
       }])
 
@@ -140,7 +140,7 @@ angular.module('starter.controllers', ['firebase'])
             function ($scope, $state, $stateParams, $ionicSlideBoxDelegate) {
             screen.lockOrientation('landscape');
             $scope.book = $stateParams.book;
-            
+
             // Called each time the slide changes
             $scope.slideChanged = function(index) {
                 $scope.slideIndex = index;
@@ -165,35 +165,53 @@ angular.module('starter.controllers', ['firebase'])
         }])
 
 /*------------------------------------------login controller-------------------------------------------------*/
-        .controller('LoginCtrl', function ($scope, $ionicPopup, $state, Child, User) {
+        .controller('LoginCtrl', function ($scope,$rootScope,$ionicPopup, $state, Child,User) {
 
             $scope.user = User;
             $scope.child = Child;
+            $rootScope.username = null;
 
-            $scope.login = function (data) {
+            $scope.currentUser1 = null;
 
-                var email = data.username;
-                var pass = data.password;
-                console.log("Email:", email);
-                console.log("pass:", pass);
+                  $scope.login = function(data) {
 
-                var user = firebase.auth().signInWithEmailAndPassword(email, pass).then(function (user) {
+                    var email = data.username;
+                    var pass = data.password;
+                    console.log("Email:", email);
+                    console.log("pass:", pass);
 
-                    console.log('logged in:', user);
-                    $state.go('tab.dash');
-                    console.log('user', user.uid);
-                    console.log('fkjkjkj', firebase.auth().currentUser);
+                    var user =firebase.auth().signInWithEmailAndPassword(email, pass).then(function(user){
 
-                }).catch(function (error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Invalid Login',
-                        template: errorMessage
-                    });//alert
+                        console.log('logged in:', user);
+                        $scope.currentUser1=user;
+                        $state.go('tab.dash');
+                        //console.log('user',user.uid);
+                        var userId = user.uid;
+                        console.log(userId);
 
-                });//catch
+                        $rootScope.username=firebase.auth().currentUser.displayName;
+
+                        var ref  = firebase.database().ref("users");
+                        console.log(firebase.auth().currentUser.displayName);
+                        console.log(firebase.auth().currentUser.photoURL);
+
+
+
+                        //console.log('current---------------',currentLoggedUser);
+                        //console.log('fkjkjkj',firebase.auth().currentUser);
+
+
+                    }).catch(function(error) {
+                                    // Handle Errors here.
+                              var errorCode = error.code;
+                              var errorMessage = error.message;
+                              var alertPopup = $ionicPopup.alert({
+                                  title: 'Invalid Login',
+                                  template: errorMessage
+                              });//alert
+
+                    });//catch
+
 
             }//$scope.login
 
@@ -203,28 +221,30 @@ angular.module('starter.controllers', ['firebase'])
 
             }//$scope.register
 
-            $scope.addChildAccount = function (data) {
+/*--------------------------------------------add child --------------------------------------------------------*/
+          $scope.addChildAccount = function (data) {
+            console.log('user88888888888:',firebase.auth().currentUser.uid);
+            var fb = new Firebase("https://kiddo-56f35.firebaseio.com/child/");
+          //  var sync = $firebaseArray(fb);
+            var parent = firebase.auth().currentUser.uid;
+            var name=data.name1;
+            var grade = data.grade;
+            console.log('name is ',name);
+            console.log('grade :',grade);
 
-                $scope.child.$add({
-                    username: data.username,
-                    name: data.name,
-                    grade: data.grade,
-                    password: data.password
-                });
+            var a = firebase.auth().currentUser;
+            $scope.currentUser1= firebase.auth().currentUser;
+            console.log('----------------------',$scope.currentUser1.displayName);
 
-                $scope.user.$add({
-                    username: data.username,
-                    password: data.password,
-                    type: "child"
-                });
+            fb.push({
+              parent:parent,
+              name:name,
+              grade:grade
+            });
 
-                console.log(data);
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Success',
-                    template: 'Child Account Successfully Created!'
-                });
-                $state.go('tab.dash');
-            };//$scope.addChildAccount
+
+
+          };//$scope.addChildAccount
 
             $scope.addUserEmail = function (data) {
 
@@ -238,18 +258,37 @@ angular.module('starter.controllers', ['firebase'])
 
                 firebase.auth().createUserWithEmailAndPassword(email, pass).then(function (user) {
 
+                    var user1 = firebase.auth().currentUser;
+
+                    console.log(user1.displayName);
+                    user1.updateProfile({
+                      displayName: name,
+                      photoURL: "https://example.com/jane-q-user/profile.jpg"
+                    }).then(function() {
+                      console.log(firebase.auth().currentUser.displayName);
+
+                    }, function(error) {
+                      // An error happened.
+                      var alertPopup = $ionicPopup.alert({
+                          title: 'Invalid SignUp',
+                          template: errorMessage
+                      });//alert
+                    });
+
                     $state.go('tab.dash');
 
+
                 })
-                .catch(function (error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Invalid SignUp',
-                        template: errorCode
-                    });//alert
-                    console.log(errorCode);
+                .catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Invalid SignUp',
+                    template: errorMessage
+                });//alert
+                console.log(errorCode);
+
 
                 });
 
@@ -279,7 +318,7 @@ angular.module('starter.controllers', ['firebase'])
         }])
     .controller('courseCtrl', ['$scope', '$state', '$stateParams','$ionicHistory',
         function ($scope, $state, $stateParams, $ionicHistory) {
-            screen.lockOrientation('landscape');          
+            screen.lockOrientation('landscape');
             $scope.course = $stateParams.pcourse;
             console.log('CourseTocome------>', $scope.course);
 
