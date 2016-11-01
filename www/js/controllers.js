@@ -42,6 +42,14 @@ angular.module('starter.controllers', ['firebase'])
 
             }
 
+            $scope.deletechat = function (chat) {
+                var ref = new Firebase('https://kiddo-56f35.firebaseio.com/replys');
+                var sync = $firebaseArray(ref);
+                $scope.replys = sync;
+                $scope.chats.$remove(chat);
+                $scope.replys.$remove(replys.$indexFor(chat.$id));
+            };
+
         }])
 
 .controller('ChatDetailCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope',
@@ -50,29 +58,25 @@ angular.module('starter.controllers', ['firebase'])
         var sync = $firebaseArray(ref);
         sync.$loaded().then(function (sync) {
             $scope.chats = sync.$getRecord(($stateParams.chatId));
+            console.log($scope.chats);
         });
+        var ref = new Firebase('https://kiddo-56f35.firebaseio.com/replys');
+        var sync = $firebaseArray(ref);
+        $scope.replys = sync;
 
         $scope.sendReply = function (chats, reply) {
 
-            var vreply = {
-                user: 'Rayan',
-                message: reply.message
-            };
-            try {
-                chats.reply.push(vreply)
-            }
-            catch (err) {
-                var arr = [];
-                arr.push(vreply);
-                chats.reply = arr;
-            }
-            $scope.chats.$save(chat).then(function (sync) {
-                sync.key() === chat.$id; // true
-            });
-            chat.message = "";
+            $scope.replys.$add({
+                    chat:chats.$id,
+                    user: 'Ravindu',
+                    reply: reply.message,
+                });
             reply.message = "";
         }
-
+        $scope.deletereply = function (reply) {
+            $scope.replys.$remove(reply);
+        };
+        
 
     }])
 

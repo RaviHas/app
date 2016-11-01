@@ -6,24 +6,28 @@
         <img class="title-image" src="img/logo.png" />
     </ion-nav-title>
     <ion-content>
-        <div class="list">
-            <a class="item item-avatar" ng-repeat="chat in chats" href="#/tab/chats/{{chat.$id}}">
-                <img>
+        <h2 style="color:darkgray">Parent's <small>Discussion Forum</small></h2>
+        <ion-list>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap"  href="#/tab/chats/{{chat.$id}}">
+                <img src="img/mike.png">
                 <h2>{{chat.user}}</h2>
                 <p>{{chat.message}}</p>
-            </a>           
-        </div>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+                <ion-option-button class="button-assertive" ng-click="deletechat(chat)">
+                    Delete
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
         <form>
-            <div class="list">
+            <div class="list" style="position: absolute;bottom: 0;width: 100%;">
                 <div class="item item-input-inset">
                     <label class="item-input-wrapper">
                         <input type="text" placeholder="Message.." ng-model="chat.message" >
                     </label>
-                    <button class="button button-positive ion-ios-chatboxes" ng-click="sendChat(chat)"></button>
+                    <button class="button button-positive ion-ios-chatboxes" ng-click="sendChat(chat)"  ng-disabled="!chat.message"></button>
                 </div>
 
             </div>
         </form>
-
-    </ion-content>
+        </ion-content>
 </ion-view>

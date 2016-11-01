@@ -1,33 +1,42 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
--->
-<ion-view view-title="{{chats.uname}}">
-  <ion-content class="padding">
-    <img ng-src="" style="width: 64px; height: 64px">
-    <p>
-      {{chats.message}}
-    </p>
-      <hr />
-      <div class="list">
-          <a class="item item-avatar" ng-repeat="reply in chats.reply">
-              <img>
-              <h2>{{reply.user}}</h2>
-              <p>{{reply.message}}</p>
-          </a>
-      </div>
-      <form>
-          <div class="list">
-              <div class="item item-input-inset">
-                  <label class="item-input-wrapper">
-                      <input type="text" placeholder="Reply.." ng-model="reply.message">
-                  </label>
-                  <button class="button button-positive ion-ios-chatboxes" ng-click="sendReply(chats,reply)"></button>
-              </div>
 
+<ion-view >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    </ion-nav-buttons>
+    <ion-nav-title right-buttons="rightButtons">
+        <img class="title-image" src="img/logo.png" />
+    </ion-nav-title>
+  <ion-content >
+      <div style="background-image:url('img/titledivb.png'); border-radius:5px; padding:5px">
+          <div class="row" style="height:60px">
+              <img src="img/ben.png" style="border-radius:40px; width:50px"><h4 style="padding-left:10px">{{chats.user}}</h4>
           </div>
-      </form>
-  </ion-content>
+
+          <p style="font-style:normal; font-size:larger; padding-left:10px;">
+              {{chats.message}}
+          </p>
+      </div>
+      <ion-list>
+          <ion-item class="item-remove-animate item-avatar item-icon-right"  ng-repeat="reply in replys" ng-if="chats.$id === reply.chat " type="item-text-wrap">
+              <img src="img/mike.png">
+              <h2>{{reply.user}}</h2>
+              <p>{{reply.reply}}</p>
+              <i class="icon ion-chevron-right icon-accessory"></i>
+              <ion-option-button class="button-assertive" ng-click="deletereply(reply)">
+                  Delete
+              </ion-option-button>
+          </ion-item>
+      </ion-list>
+          <form>
+              <div class="list">
+                  <div class="item item-input-inset">
+                      <label class="item-input-wrapper">
+                          <input type="text" placeholder="Reply.." ng-model="reply.message">
+                      </label>
+                      <button class="button button-positive ion-ios-chatboxes" ng-click="sendReply(chats,reply)"></button>
+                  </div>
+
+              </div>
+          </form>
+</ion-content>
 </ion-view>
