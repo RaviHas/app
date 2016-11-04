@@ -9,7 +9,7 @@
   <ion-content >
       <div style="background-image:url('img/titledivb.png'); border-radius:5px; padding:5px">
           <div class="row" style="height:60px">
-              <img src="img/ben.png" style="border-radius:40px; width:50px"><h4 style="padding-left:10px">{{chats.user}}</h4>
+              <img src="img/mike.png" style="border-radius:40px; width:50px"><h4 style="padding-left:10px">{{chats.user}}</h4>
           </div>
 
           <p style="font-style:normal; font-size:larger; padding-left:10px;">
@@ -18,11 +18,11 @@
       </div>
       <ion-list>
           <ion-item class="item-remove-animate item-avatar item-icon-right"  ng-repeat="reply in replys" ng-if="chats.$id === reply.chat " type="item-text-wrap">
-              <img src="img/mike.png">
+              <img src="img/ben.png">
               <h2>{{reply.user}}</h2>
               <p>{{reply.reply}}</p>
               <i class="icon ion-chevron-right icon-accessory"></i>
-              <ion-option-button class="button-assertive" ng-click="deletereply(reply)">
+              <ion-option-button class="button-assertive"  ng-if="reply.user===cuser" ng-click="deletereply(reply)">
                   Delete
               </ion-option-button>
           </ion-item>

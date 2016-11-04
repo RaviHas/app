@@ -170,6 +170,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             book: null
         }
 
+    })
+    .state('quiz', {
+        url: '/quiz',
+        templateUrl: 'templates/quiz.html',
+        directive: 'quiz',
+    })
+    .state('achievement', {
+        url: '/achievement',
+        templateUrl: 'templates/achievement.html',
+        //controller: 'achievement',
     });
 
   // if none of the above states are matched, use this as the fallback
