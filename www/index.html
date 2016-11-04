@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -12,7 +12,6 @@
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
-
     <!--For users deploying their apps to Windows 8.1 or Android Gingerbread, platformOverrided.js
     will inject platform-specific code from the /merges folder -->
     <script src="js/platformOverrides.js"></script>
@@ -22,13 +21,11 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-
-      <!-- Firebase -->
-      <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
-      <!-- AngularFire -->
-      <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
-
-
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
 
 
 
@@ -38,7 +35,7 @@
     <script src="js/services.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-<script>
+    <script>
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyA-HNpYZTrwEbVEVO2GG9VU-DJUpbhs7gw",
@@ -48,9 +45,7 @@
     messagingSenderId: "126859245456"
   };
   firebase.initializeApp(config);
-</script>
-
-
+    </script>
   </head>
   <body ng-app="starter" >
     <!--
@@ -85,6 +80,7 @@
               </ion-content>
           </ion-side-menu>
       </ion-side-menus>
+
 
 </body>
 </html>

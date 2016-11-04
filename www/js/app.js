@@ -186,11 +186,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
 
     })
+
     .state('account', {
         url: '/account',
         templateUrl: 'templates/tab-account.html',
         controller: 'accountCtrl'
+  })
 
+    .state('quiz', {
+        url: '/quiz',
+        templateUrl: 'templates/quiz.html',
+        directive: 'quiz',
      });
 
   // if none of the above states are matched, use this as the fallback
