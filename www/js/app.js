@@ -100,6 +100,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       templateUrl: 'Login/registerChild.html',
       controller: 'LoginCtrl'
    })
+   .state('manageChild', {
+       url: '/manageChild',
+       templateUrl: 'Login/manageChild.html',
+       controller: 'ChildCtrl'
+    })
+    .state('editProfile', {
+        url: '/editProfile',
+        templateUrl: 'templates/edit-profile-popup.html',
+        controller: 'ChildCtrl'
+     })
 
   .state('virtualcls', {
       url: '/virtualcls',
@@ -119,13 +129,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
        controller: 'storybookCtrl'
 
    })
+   .state('parentProfile', {
+
+       url: '/parentProfile',
+       templateUrl: 'templates/parentProfile.html',
+         controller: 'ParentProfileCtrl'
+
+   })
     .state('grade', {
         url: '/grade',
         templateUrl: 'Classroom/grade.html',
         controller: 'classroomCtrl'
 
     })
-     
+
     .state('course', {
         cache: false,
         url: '/course',
@@ -157,8 +174,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
        params: {
         obj: null
        }
-       
-        
     })
     .state('storybookreader', {
         cache: false,
@@ -170,7 +185,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             book: null
         }
 
-    });
+    })
+    .state('account', {
+        url: '/account',
+        templateUrl: 'templates/tab-account.html',
+        controller: 'accountCtrl'
+
+     });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

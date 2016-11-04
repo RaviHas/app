@@ -12,42 +12,29 @@
 
       <form name="myForm" novalidate>
         <div class="list">
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Username</span>
-            <input type="text" placeholder="Username" ng-model="data.username">
-            <p ng-show="myForm.data.username.$error.required">Username is required.</p>
-          </label>
 
           <label class="item item-input item-floating-label">
             <span class="input-label">Name</span>
-            <input type="text" placeholder="Name" ng-model="data.name">
+            <input type="text" placeholder="Name" ng-model="data.name1">
           </label>
 
           <label class="item item-input item-select">
             <div class="input-label">
               Grade
             </div>
-            <select>
 
-              <option selected ng-model="data.grade">Select</option>
-              <option ng-model="data.grade">Grade 2</option>
-              <option ng-model="data.grade">Grade 3</option>
-              <option ng-model="data.grade">Grade 4</option>
+            <select ng-model="data.grade"  >
+              <option value="0">Select</option>
+              <option value="2">2</option>
+              <option value="3"> 3</option>
+              <option value="4">4</option>
             </select>
+
           </label>
 
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Password</span>
-            <input type="password" placeholder="Password" ng-model="data.password">
-          </label>
-
-          <label class="item item-input item-floating-label">
-            <span class="input-label">Confirm Password</span>
-            <input type="password" placeholder="Confirm Password" ng-model="data.password2">
-          </label>
 
           <label class="item">
-            <button class="button button-block button-calm" ng-click="addChildAccount(data)">Sign Up</button>
+            <button class="button button-block button-calm" ng-click="addChildAccount(data)">Submit</button>
           </label>
 
         </div>

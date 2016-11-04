@@ -12,10 +12,11 @@
                 <div class="input-label">
                     Child
                 </div>
-                <select>
-                    <option selected>Sajith Chamara</option>
-                    <option>Chamara Madushan</option>
+                <select ng-model="child">
+                            <option ng-selected="{{default}}" ng-repeat="child in childNames">{{child.name}}</option>
                 </select>
+
+
             </label>
 
         </div>
@@ -36,4 +37,3 @@
         </div>
     </ion-content>
 </ion-view>
-
