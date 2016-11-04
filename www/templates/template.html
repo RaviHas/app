@@ -1,0 +1,40 @@
+﻿<div class="quiz-area" ng-show="inProgress"  style="padding:25px; font-style:normal; font-size:larger; border-radius: 25px; width:402px; background-image:url('img/titlediv.png'); margin-bottom:10px;">
+    <div ng-show="!quizOver">
+        <h3 ng-if="questiontype == 'Text Question'" style="color:white;text-shadow: 2px 2px 4px #000000;" id="question">{{question}}</h3>
+        <div ng-if="questiontype == 'Image Question'"><img src="{{question}}" alt="" height="100" width="200"></div>
+        <div class="row" >
+            <div style="width:350px">
+                <div style="padding:5px; width:140px; float:left;" ng-repeat="option in options">
+                    <input style="height:35px; width:35px;" type="radio" name="answer" value="{{option}}">
+                    {{option}}
+                </div>
+            </div>
+        </div>
+       
+        <button class="button button-assertive" ng-click="checkAnswer()" ng-show="answerMode"><i class="icon ion-thumbsup"></i>Submit</button>
+
+        <div ng-show="!answerMode">
+            <button class="button button-balanced" ng-click="nextQuestion()" ><i class="icon ion-ios-fastforward"></i>Next</button>
+            <div>
+                <span ng-show="correctAns" style="color:blue">That is correct!</span>
+                <span ng-show="!correctAns" style="color:tomato">Sorry, that is an incorrect answer!</span>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="quizOver">
+        <h3 style="color:white;text-shadow: 2px 2px 4px #000000;" id="question">Quiz is over</h3>
+        <button  class="button button-balanced" ng-click="reset()"><i class="icon ion-play"></i>Play again</button>
+    </div>
+
+    <div id="score">
+        Score: {{score}}
+    </div>
+</div>
+
+<div class="intro" ng-show="!inProgress">
+    <div>
+        <img src="img/quizinst.png" style="width:450px;height:220px;border-radius:10px" />
+    </div>
+    <button class="button button-balanced" id="startQuiz" ng-click="start()">Start the Quiz</button>
+</div>
