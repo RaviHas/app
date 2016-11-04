@@ -1,25 +1,35 @@
 <ion-view>
-
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    </ion-nav-buttons>
+    <ion-nav-title right-buttons="rightButtons">
+        <img class="title-image" src="img/logo.png" />
+    </ion-nav-title>
     <ion-content class="padding">
         <div class="list card">
-
-            <div class="item item-avatar">
-                <img src="img/owl.png">
-                <h2>Welcome to kiddo</h2>
+            <div class="item item-avatar" style="background-image:url('img/wkiddo.png')">
             </div>
 
             <div class="item item-body">
                 <img class="full-image" src="img/banner.jpg">
-                <p>
-                    This is a "Facebook" styled Card. The header is created from a Thumbnail List item,
-                    the content is from a card-body consisting of an image and paragraph text. The footer
-                    consists of tabs, icons aligned left, within the card-footer.
-                </p>
-                
+                <p >
+                    Kiddo is a learning app for children. We make a great learning environment for your children
+                     so that you can keep track of their learning progress.
+                    With kiddo your children can have fun and learn at the same time. So hurry up and register your child at kiddo.
+                    We also provide a forum for you where you can discuss your issues  with other parents.
+                </p>               
+            </div>
+        </div>
+        <h2 style="color:dodgerblue">New <small>Course module</small></h2>
+        <div class="list card" ng-repeat="course in courses">
+            <div class="item item-avatar"  style="background-image:url('img/titledivb.png')">
+                <img src="img/logo.png">
+                <p style="font-style:normal;color:white; font-size:large;">{{course.title}}</p>
             </div>
 
-
-
+            <div class="item item-body"> 
+                <p>{{course.description}}</p>
+            </div>
         </div>
     </ion-content>
 </ion-view>

@@ -9,7 +9,7 @@
         <h2 style="color:darkgray">Parent's <small>Discussion Forum</small></h2>
         <ion-list>
             <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap"  href="#/tab/chats/{{chat.$id}}">
-                <img src="img/mike.png">
+                <img  src="{{chat.img}}">
                 <h2>{{chat.user}}</h2>
                 <p>{{chat.message}}</p>
                 <i class="icon ion-chevron-right icon-accessory"></i>
