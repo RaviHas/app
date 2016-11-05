@@ -92,14 +92,20 @@ angular.module('starter.controllers', ['firebase'])
 
 })
 
-.controller('AccountCtrl',function ($scope, $state,$firebaseArray, $ionicSideMenuDelegate) {
+.controller('AccountCtrl',function ($scope,$rootScope, $state,$firebaseArray, $ionicSideMenuDelegate) {
 
   var ref=new Firebase('https://kiddo-56f35.firebaseio.com/child');
-  var sync=$firebaseArray(ref);
-
+  var sync = $firebaseArray(ref);
+   
+  var refp = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
+  var syncp = $firebaseArray(refp);
+  
+  $scope.allprogress = syncp;
   $scope.children=sync;
   $scope.userId=firebase.auth().currentUser.uid;
-  $scope.childNames=[];
+  $scope.childNames = [];
+  $scope.progress = [];
+
   $scope.children.$loaded()
     .then(function () {
         angular.forEach($scope.children, function (c) {
@@ -110,9 +116,28 @@ angular.module('starter.controllers', ['firebase'])
                 console.log('default------------->',$scope.childNames[0]);
             }
         })});
-
-
+  
+   
   console.log($scope.children);
+  
+  $scope.showSelectChild = function (selectchild) {
+      console.log('hiiiii child1', selectchild);
+      angular.forEach($scope.children, function (c) {
+          if (c.parent == $scope.userId) {
+              if (c.name == selectchild) {
+                  $rootScope.child = c;
+                  var i;
+                  for (i = 0; i < syncp.length; i++) {
+                      if (syncp[i].childname == selectchild && syncp[i].parentid == $scope.userId) {
+                          $scope.progress.push(syncp[i]);
+                      }
+                  }
+                  console.log('rooot child', c);
+              }
+          }
+      })
+
+  }
 
     var init = function () {
       screen.unlockOrientation();
@@ -127,6 +152,8 @@ angular.module('starter.controllers', ['firebase'])
         $state.go('virtualcls');
         $ionicSideMenuDelegate.canDragContent(false)
         //screen.lockOrientation('landscape');
+        //$rootScope.child = $scope.child.child;
+        console.log('hiii child', $scope.child.name);
     };
 
 
@@ -466,43 +493,12 @@ angular.module('starter.controllers', ['firebase'])
         });
     });
 
-
-
-
-    /*var ref = new Firebase('https://kiddo-56f35.firebaseio.com/question');
-    var sync = $firebaseArray(ref);
-    var questions = sync;
-    console.log('Omali Grade-------------->', $rootScope.grade);
-    console.log('Omali Subject-------------->', $rootScope.subject);
-    console.log('Omali Title-------------->', $rootScope.title);*/
-
-    /*var questions = [
-		{
-		    question: "Which is the largest country in the world by population?",
-		    options: ["India", "USA", "China", "Russia"],
-		    answer: 2
-		},
-		{
-		    question: "When did the second world war end?",
-		    options: ["1945", "1939", "1944", "1942"],
-		    answer: 0
-		},
-		{
-		    question: "Which was the first country to issue paper currency?",
-		    options: ["USA", "France", "Italy", "China"],
-		    answer: 3
-		},
-		{
-		    question: "Which city hosted the 1996 Summer Olympics?",
-		    options: ["Atlanta", "Sydney", "Athens", "Beijing"],
-		    answer: 0
-		},
-		{
-		    question: "Who invented telephone?",
-		    options: ["Albert Einstein", "Alexander Graham Bell", "Isaac Newton", "Marie Curie"],
-		    answer: 1
-		}
-    ];*/
+    var refmark = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
+    var syncmark = $firebaseArray(refmark);
+    var date = new Date();
+   // date = $moment().format('MM/DD/YYYY');
+    console.log('date---->', date);
+  
 
     return {
         getQuestion: function (id) {
@@ -515,6 +511,17 @@ angular.module('starter.controllers', ['firebase'])
 
         addMarks: function (mark) {
             console.log('marks----------->', mark);
+            console.log('child name -------->', $rootScope.child);
+            syncmark.$add({
+                parentid: $rootScope.child.parent,
+                childname: $rootScope.child.name,
+                grade: $rootScope.grade,
+                subject: $rootScope.subject,
+                title: $rootScope.title,
+                date: date.toString(),
+                mark: mark
+            });
+            
         }
     };
 
