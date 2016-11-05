@@ -16,9 +16,14 @@ angular.module('starter.controllers', ['firebase'])
     return $firebaseArray(UserRef);
 }])
 
-.controller('DashCtrl', function ($scope) {
-    screen.unlockOrientation();
-})
+.controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope',
+        function ($scope, $state, $stateParams, $firebaseArray,$ionicHistory, $rootScope) {
+            screen.lockOrientation('landscape');
+            var ref = new Firebase('https://kiddo-56f35.firebaseio.com/course').limitToLast(5);
+            var sync = $firebaseArray(ref);
+            $scope.courses = sync;
+
+        }])
 
 .controller('ChatsCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope',
         function ($scope, $firebaseArray, $rootScope, $state) {
@@ -33,6 +38,7 @@ angular.module('starter.controllers', ['firebase'])
                 $scope.chats.$add({
                     user: firebase.auth().currentUser.displayName,
                     message: chat.message,
+                    img: firebase.auth().currentUser.photoURL
                 });
                 chat.message = "";
             }
@@ -72,6 +78,7 @@ angular.module('starter.controllers', ['firebase'])
             $scope.replys.$add({
                     chat:chats.$id,
                     user: firebase.auth().currentUser.displayName,
+                    img: firebase.auth().currentUser.photoURL,
                     reply: reply.message,
                 });
             reply.message = "";
