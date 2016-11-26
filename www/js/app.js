@@ -188,7 +188,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
 
     })
-
     .state('account', {
         url: '/account',
         templateUrl: 'templates/tab-account.html',
@@ -199,7 +198,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/quiz',
         templateUrl: 'templates/quiz.html',
         directive: 'quiz',
-     });
+    })
+    .state('achievement', {
+        url: '/achievement',
+        templateUrl: 'templates/achievement.html',
+        //controller: 'achievement',
+    });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

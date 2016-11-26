@@ -1,27 +1,22 @@
-﻿<ion-view hide-nav-bar="true" >
-    <img src="img/sb_bgg.png" alt="">
+﻿<ion-view hide-nav-bar="true">
+    <img src="img/classroomq.jpg" alt="">
     <ion-content scroll="false">
         <ion-slide-box on-slide-changed="slideChanged(index)">
             <ion-slide ng-repeat="b in book.images">
-              <div class="row">
-                  <div class="col-sm-1">
-                    <img src="img/home-icon.png" ng-click="backStoryContent(book)" ng-show="!= book.images.length-1"/>
-                  </div>
-                  <div class="col-sm-11">
-                      <div id="i" style="background-image: url({{b}}); height:380px; width:600px; background-repeat:no-repeat; background-size: contain;">
-                        <div class="row row-center" style="padding: 150px 0;">
-                            <div class="col col-33">
-                                <img src="img/previous-icon.png" ng-click="previous()" ng-show="slideIndex > 0"/>
-                            </div>
-                            <div class="col col-33 col-offset-33">
-                                <img src="img/next-icon.png" ng-click="next()" ng-show="slideIndex != book.images.length-1"/>
-                                <img src="img/end-icon.png"  ng-click="backStoryBooks()" ng-show="slideIndex == book.images.length-1" />
-                            </div>
-                        </div>  
-                      </div>
-                  </div>
+                <div class="row">
+                    <div style="width:80px" align="center">
+                        <img src="img/previous-icon.png" style="margin-top:130px" ng-click="previous()" ng-show="slideIndex > 0" />
+                    </div>
+                    <div style="padding-bottom:10px;padding-top:5px">
+                        <div id="i" style="background-image: url({{b}}); height:300px; width:460px; background-repeat:no-repeat;box-shadow: 2px 2px 4px #000000; border-radius:10px; border:solid; border-color:white"></div>
+                    </div>
+                    <div style="width:80px;" align="center">
+                        <img src="img/next-icon.png" style="margin-top:130px" ng-click="next()" ng-show="slideIndex != book.images.length-1" />
+                        <img src="img/end-icon.png" style="margin-top:130px" ng-click="backStoryBooks()" ng-show="slideIndex == book.images.length-1" />
+                        <img src="img/home-icon.png" style="margin-top:70px" ng-click="backStoryContent(book)" ng-show="!= book.images.length-1" />
+                    </div>
                 </div>
-              </ion-slide>
+            </ion-slide>
         </ion-slide-box>
     </ion-content>
 </ion-view>

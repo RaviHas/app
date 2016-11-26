@@ -16,9 +16,14 @@ angular.module('starter.controllers', ['firebase'])
     return $firebaseArray(UserRef);
 }])
 
-.controller('DashCtrl', function ($scope) {
-    screen.unlockOrientation();
-})
+.controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope',
+        function ($scope, $state, $stateParams, $firebaseArray,$ionicHistory, $rootScope) {
+            screen.lockOrientation('landscape');
+            var ref = new Firebase('https://kiddo-56f35.firebaseio.com/course').limitToLast(5);
+            var sync = $firebaseArray(ref);
+            $scope.courses = sync;
+
+        }])
 
 .controller('ChatsCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope',
         function ($scope, $firebaseArray, $rootScope, $state) {
@@ -26,11 +31,14 @@ angular.module('starter.controllers', ['firebase'])
             var ref = new Firebase('https://kiddo-56f35.firebaseio.com/chat');
             var sync = $firebaseArray(ref);
             $scope.chats = sync;
+            $scope.cuser = firebase.auth().currentUser.displayName;
 
             $scope.sendChat = function (chat) {
+                console.log(firebase.auth().currentUser);
                 $scope.chats.$add({
-                    user: 'Ravindu',
+                    user: firebase.auth().currentUser.displayName,
                     message: chat.message,
+                    img: firebase.auth().currentUser.photoURL
                 });
                 chat.message = "";
             }
@@ -60,6 +68,7 @@ angular.module('starter.controllers', ['firebase'])
             $scope.chats = sync.$getRecord(($stateParams.chatId));
             console.log($scope.chats);
         });
+        $scope.cuser = firebase.auth().currentUser.displayName;
         var ref = new Firebase('https://kiddo-56f35.firebaseio.com/replys');
         var sync = $firebaseArray(ref);
         $scope.replys = sync;
@@ -68,7 +77,8 @@ angular.module('starter.controllers', ['firebase'])
 
             $scope.replys.$add({
                     chat:chats.$id,
-                    user: 'Ravindu',
+                    user: firebase.auth().currentUser.displayName,
+                    img: firebase.auth().currentUser.photoURL,
                     reply: reply.message,
                 });
             reply.message = "";
@@ -89,14 +99,20 @@ angular.module('starter.controllers', ['firebase'])
 
 })
 
-.controller('AccountCtrl',function ($scope, $state,$firebaseArray, $ionicSideMenuDelegate) {
+.controller('AccountCtrl',function ($scope,$rootScope, $state,$firebaseArray, $ionicSideMenuDelegate) {
 
   var ref=new Firebase('https://kiddo-56f35.firebaseio.com/child');
-  var sync=$firebaseArray(ref);
-
+  var sync = $firebaseArray(ref);
+   
+  var refp = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
+  var syncp = $firebaseArray(refp);
+  
+  $scope.allprogress = syncp;
   $scope.children=sync;
   $scope.userId=firebase.auth().currentUser.uid;
-  $scope.childNames=[];
+  $scope.childNames = [];
+  $scope.progress = [];
+
   $scope.children.$loaded()
     .then(function () {
         angular.forEach($scope.children, function (c) {
@@ -107,9 +123,28 @@ angular.module('starter.controllers', ['firebase'])
                 console.log('default------------->',$scope.childNames[0]);
             }
         })});
-
-
+  
+   
   console.log($scope.children);
+  
+  $scope.showSelectChild = function (selectchild) {
+      console.log('hiiiii child1', selectchild);
+      angular.forEach($scope.children, function (c) {
+          if (c.parent == $scope.userId) {
+              if (c.name == selectchild) {
+                  $rootScope.child = c;
+                  var i;
+                  for (i = 0; i < syncp.length; i++) {
+                      if (syncp[i].childname == selectchild && syncp[i].parentid == $scope.userId) {
+                          $scope.progress.push(syncp[i]);
+                      }
+                  }
+                  console.log('rooot child', c);
+              }
+          }
+      })
+
+  }
 
     var init = function () {
       screen.unlockOrientation();
@@ -124,6 +159,8 @@ angular.module('starter.controllers', ['firebase'])
         $state.go('virtualcls');
         $ionicSideMenuDelegate.canDragContent(false)
         //screen.lockOrientation('landscape');
+        //$rootScope.child = $scope.child.child;
+        console.log('hiii child', $scope.child.name);
     };
 
 
@@ -215,11 +252,6 @@ angular.module('starter.controllers', ['firebase'])
 
                         $rootScope.username=firebase.auth().currentUser.displayName;
                         $rootScope.profileImage=firebase.auth().currentUser.photoURL;
-
-                        var ref  = firebase.database().ref("users");
-                        console.log(firebase.auth().currentUser.displayName);
-                        console.log(firebase.auth().currentUser.photoURL);
-
 
                     }).catch(function(error) {
                                     // Handle Errors here.
@@ -491,14 +523,13 @@ angular.module('starter.controllers', ['firebase'])
             $rootScope.subject = $scope.course.subject;
             $rootScope.title = $scope.course.title;
 
-
             $scope.quize = function (Course) {
                 $state.go('quiz');
                 console.log('quizeTogo------>', Course);
             }
 
-
         }])
+
 .factory('quizFactory', ['$firebaseArray', '$rootScope', function ($firebaseArray, $rootScope) {
     var count = 0;
     var i = 0;
@@ -537,43 +568,12 @@ angular.module('starter.controllers', ['firebase'])
         });
     });
 
-
-
-
-    /*var ref = new Firebase('https://kiddo-56f35.firebaseio.com/question');
-    var sync = $firebaseArray(ref);
-    var questions = sync;
-    console.log('Omali Grade-------------->', $rootScope.grade);
-    console.log('Omali Subject-------------->', $rootScope.subject);
-    console.log('Omali Title-------------->', $rootScope.title);*/
-
-    /*var questions = [
-		{
-		    question: "Which is the largest country in the world by population?",
-		    options: ["India", "USA", "China", "Russia"],
-		    answer: 2
-		},
-		{
-		    question: "When did the second world war end?",
-		    options: ["1945", "1939", "1944", "1942"],
-		    answer: 0
-		},
-		{
-		    question: "Which was the first country to issue paper currency?",
-		    options: ["USA", "France", "Italy", "China"],
-		    answer: 3
-		},
-		{
-		    question: "Which city hosted the 1996 Summer Olympics?",
-		    options: ["Atlanta", "Sydney", "Athens", "Beijing"],
-		    answer: 0
-		},
-		{
-		    question: "Who invented telephone?",
-		    options: ["Albert Einstein", "Alexander Graham Bell", "Isaac Newton", "Marie Curie"],
-		    answer: 1
-		}
-    ];*/
+    var refmark = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
+    var syncmark = $firebaseArray(refmark);
+    var date = new Date();
+   // date = $moment().format('MM/DD/YYYY');
+    console.log('date---->', date);
+  
 
     return {
         getQuestion: function (id) {
@@ -586,6 +586,17 @@ angular.module('starter.controllers', ['firebase'])
 
         addMarks: function (mark) {
             console.log('marks----------->', mark);
+            console.log('child name -------->', $rootScope.child);
+            syncmark.$add({
+                parentid: $rootScope.child.parent,
+                childname: $rootScope.child.name,
+                grade: $rootScope.grade,
+                subject: $rootScope.subject,
+                title: $rootScope.title,
+                date: date.toString(),
+                mark: mark
+            });
+            
         }
     };
 
@@ -612,6 +623,7 @@ angular.module('starter.controllers', ['firebase'])
             scope.getQuestion = function () {
                 var q = quizFactory.getQuestion(scope.id);
                 if (q) {
+
                     scope.questiontype = q.type;
                     scope.question = q.question;
                     scope.options =[q.answer1,q.answer2,q.answer3,q.answer4];
@@ -645,11 +657,6 @@ angular.module('starter.controllers', ['firebase'])
             }
 
             scope.reset();
-
-            if (scope.quizOver == true) {
-
-            }
-
 
         }
     }
