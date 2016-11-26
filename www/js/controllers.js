@@ -16,6 +16,7 @@ angular.module('starter.controllers', ['firebase'])
     return $firebaseArray(UserRef);
 }])
 
+
 .controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope','$ionicSideMenuDelegate',
 function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope,$ionicSideMenuDelegate) {
             $ionicSideMenuDelegate.canDragContent(true);
@@ -461,8 +462,8 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
            });
        };//delete child
    }])
-   .controller('ParentProfileCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject','$state',
-function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state) {
+   .controller('ParentProfileCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject','$state','$ionicPlatform',
+function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state,$ionicPlatform) {
           $scope.name = firebase.auth().currentUser.displayName;
           $scope.profileImage = firebase.auth().currentUser.photoURL;
           $scope.email = firebase.auth().currentUser.email;
@@ -520,6 +521,12 @@ function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state) {
           });
 
         };
+
+        $ionicPlatform.registerBackButtonAction(function () {
+             $state.go('tab');
+        });
+    
+
    }])
 
    .controller('classroomCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray','$ionicHistory', '$rootScope',
