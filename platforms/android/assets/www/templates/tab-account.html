@@ -7,33 +7,72 @@
     </ion-nav-title>
     <ion-content>
         <div class="list">
-
             <label class="item item-input item-select">
-                <div class="input-label">
+                <label class="input-label">
                     Child
-                </div>
-                <select>
-                    <option selected>Sajith Chamara</option>
-                    <option>Chamara Madushan</option>
+                </label>
+                <select name="child" ng-model="selectchild"  ng-change="showSelectChild(selectchild)">
+                    <option ng-repeat="child in
+                             childNames">{{child.name}}</option>
                 </select>
             </label>
-
         </div>
 
-        <div class="list card">
+        <div class="list card"  ng-if="selectchild != null ">
             <div class="item item-avatar">
-                <img src="img\ben.png">
-                <h2>Sajith Chamara</h2>
-                <p>Level <i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i></p>
+                <img src="{{child.image}}">
+                <h2>{{child.name}}</h2>
+                <p>Activity <i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i><i class="icon ion-ios-star"></i></p>
             </div>
-            <div class="item item-image">
-                <img src="img\chart.png">
+            <div class="item item-input" style="background-image:url('img/progressbg.png');height:500px">
+                <div class="col">
+                    <div class="row header">
+                        <div class="col" style="background-color:lightgrey">Grade</div>
+                        <div class="col" style="background-color:lightgrey">Subject</div>
+                        <div class="col" style="background-color:lightgrey">Title</div>
+                        <div class="col" style="background-color:lightgrey">Marks</div>
+                    </div>
+                    <div class="row" ng-repeat="p in progress">
+                        <div class="col">{{p.grade}}</div>
+                        <div class="col">{{p.subject}}</div>
+                        <div class="col">{{p.title}}</div>
+                        <div class="col">{{p.mark}}</div>
+                    </div> 
+                </div>
+                
             </div>
             <a ng-click="goToCls()" class="item item-icon-left assertive" >
                 <i class="icon ion-ios-book"></i>
                 Go to Class Room
             </a>
         </div>
+
+        <div class="list card" ng-if="selectchild == null ">
+            <div class="card">
+                <div class="item item-text-wrap">
+                    Select a child to go to the Virtual Class Room
+                </div>
+            </div>
+            <div class="item item-input" style="background-image:url('img/progressbg.png');height:500px">
+                <div class="col">
+                    <div class="row header">
+                        <div class="col" style="background-color:lightgrey">Child</div>
+                        <div class="col" style="background-color:lightgrey">Grade</div>
+                        <div class="col" style="background-color:lightgrey">Subject</div>
+                        <div class="col" style="background-color:lightgrey">Title</div>
+                        <div class="col" style="background-color:lightgrey">Marks</div>
+                    </div>
+                    <div class="row" ng-repeat="al in allprogress">
+                        <div class="col">{{al.childname}}</div>
+                        <div class="col">{{al.grade}}</div>
+                        <div class="col">{{al.subject}}</div>
+                        <div class="col">{{al.title}}</div>
+                        <div class="col">{{al.mark}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </ion-content>
 </ion-view>
-

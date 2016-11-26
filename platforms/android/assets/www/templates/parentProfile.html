@@ -1,0 +1,50 @@
+
+<ion-view >
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    </ion-nav-buttons>
+    <ion-nav-title right-buttons="rightButtons">
+        <img class="title-image" src="img/logo.png" />
+    </ion-nav-title>
+    <ion-content class="padding">
+
+      <div class="list card">
+
+  <div class="item item-avatar">
+    <img src="img\smiley.jpg">
+    <h2>{{name}}</h2>
+    <p>{{email}}</p>
+  </div>
+
+  <div class="item item-body">
+    <img class="full-image" src="{{profileImage}}">
+    <a href="#" class="item ">
+      <button class="button button-clear button-block button-calm">
+        Change my profile picture.
+      </button>
+    </a>
+
+    <div class="list card">
+
+      <a href="#" class="item item-icon-left">
+        <div class=" item-button-right">
+        {{name}}
+        <button class="button button-stable" ng-click="editName()">
+          <i class="icon ion-edit"></i>
+        </button>
+      </div>
+      </a>
+
+      <a href="#" class="item ">
+        <button class="button button-outline button-block button-calm">
+          Change my password.
+        </button>
+      </a>
+
+</div>
+  </div>
+
+</div>
+
+    </ion-content>
+</ion-view>

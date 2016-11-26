@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "angularfire": "^2.0.2",
-    "ng-sweet-alert": "^1.0.8"
+    "ng-sweet-alert": "^1.0.8",
+    "angular-block-ui": "^0.2.2"
   }
 }

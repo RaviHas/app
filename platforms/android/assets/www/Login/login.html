@@ -1,16 +1,54 @@
 ﻿
 <ion-view >
+    <ion-nav-title right-buttons="rightButtons">
+        <img class="title-image" src="img/logo.png" />
+    </ion-nav-title>
+  <ion-header-bar class="bar-calm">
+    <h1 class="title">Kiddo</h1>
+    <div class="buttons">
+      <button class="button button-clear ion-ios-arrow-back" ng-click="closeLogin()">  Back</button>
+    </div>
+  </ion-header-bar>
+
     <ion-content class="padding">
-        <a href=""></a>
-        <div class="list list-inset">
-            <label class="item item-input">
-                <input type="text" placeholder="Username" ng-model="data.username">
-            </label>
-            <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="data.password">
-            </label>
-        </div>
-        <button class="button button-block button-calm" ng-click="login()">Login</button>
-        <a ng-click="register()">+Register</a>
+      <div class="list card">
+
+    <div class="item item-avatar">
+     <img src="img\smiley.jpg">
+     <h2>Sign In to Kids' Corner</h2>
+
+   </div><!--div class="item item-avatar"-->
+
+   <div class="item item-body">
+     <img class="full-image" src="img\loginbanner.jpg">
+      <form ng-submit="doLogin()">
+        <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Username</span>
+            <input type="text" name="name" ng-required="true" placeholder="Username" ng-model="data.username">
+          </label>
+
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Password</span>
+            <input type="password" placeholder="Password" ng-model="data.password">
+          </label>
+          <label class="item">
+            <button class="button button-block button-calm" ng-click="login(data)">Sign in</button>
+          </label>
+
+          <label class="item">
+          <p>Are you new?</p>
+          <button class="button button-block button-outline button-calm" ng-click="register()">Sign Up</button>
+          </label>
+
+        </div>  <!--div class="list"-->
+
+      </form>
+
+  </div ><!--div class="item item-body"-->
+
+
+
+  </div>  <!--div class="list card"-->
     </ion-content>
 </ion-view>
