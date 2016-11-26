@@ -313,10 +313,31 @@ angular.module('starter.controllers', ['firebase'])
                 });
 
             };//$scope.addUserEmail
+            $scope.logout = function(){
+
+              var confirmPopup = $ionicPopup.confirm({
+                 title: 'Confirm Logout',
+                 template: 'Are you sure you want to logout from kiddo?'
+               });
+
+               confirmPopup.then(function(res) {
+                 if(res) {
+                   firebase.auth().signOut().then(function() {
+                      $state.go('login');
+                      console.log("logged out");
+                    }, function(error) {
+                      console.log(error);
+                    });
+                 } else {
+                   console.log('You are not sure');
+                 }
+               });
+
+            };
 
             $scope.userLogged = function () {
                 console.log("hjhjhjk--------------------");
-            }
+            };
         })
    .controller('ChildCtrl',['$scope','$firebaseArray','$ionicPopup','$firebaseObject',
    function($scope,$firebaseArray,$ionicPopup,$firebaseObject){
@@ -347,7 +368,8 @@ angular.module('starter.controllers', ['firebase'])
                   onTap: function(e) {
                     var ref=new Firebase('https://kiddo-56f35.firebaseio.com/child/'+id);
                     ref.update({
-                      name:$scope.editData.name
+                      name:$scope.editData.name,
+                      grade:$scope.editData.grade
                     });                    //return scope.data.response;
                   }
                 },
@@ -373,7 +395,6 @@ angular.module('starter.controllers', ['firebase'])
              var ref=new Firebase('https://kiddo-56f35.firebaseio.com/child/'+id);
              ref.remove();
              $state.go('tab.dash');
-             console.log('You clicked on "OK" button');
 
           } else {
              console.log('You clicked on "Cancel" button');
@@ -381,8 +402,8 @@ angular.module('starter.controllers', ['firebase'])
        });
      };//delete child
    }])
-   .controller('ParentProfileCtrl',['$scope','$firebaseArray','$ionicPopup','$firebaseObject',
-      function($scope,$firebaseArray,$ionicPopup,$firebaseObject){
+   .controller('ParentProfileCtrl',['$scope','$firebaseArray','$ionicPopup','$firebaseObject','$state',
+      function($scope,$firebaseArray,$ionicPopup,$firebaseObject,$state){
 
         $scope.name=firebase.auth().currentUser.displayName;
         $scope.profileImage=firebase.auth().currentUser.photoURL;
@@ -393,9 +414,56 @@ angular.module('starter.controllers', ['firebase'])
         console.log($scope.email);
 
         $scope.editName = function(){
+            console.log("edit name called---------------->");
+            $scope.name=firebase.auth().currentUser.displayName;
+            $scope.editUserName=$scope.name;
+
+            var myPopup = $ionicPopup.show({
+              templateUrl: 'templates/paren-username-popup.html',
+              title: 'Edit my name',
+              scope: $scope,
+
+              buttons: [
+                { text: 'Cancel' },
+              ]
+            });
+
+            $scope.editUserDisplayName = function(editUserName){
+
+              var user = firebase.auth().currentUser;
+
+              var username = editUserName;
+              console.log(username);
+
+              user.updateProfile({
+                            displayName:username
+                          }).then(function() {
+                            console.log(firebase.auth().currentUser.displayName);
+                            myPopup.close();
+                            $state.go('parentProfile');
+                          }, function(error) {
+                            // An error happened.
+                            console.log(error);
+              });
+
+            };
+        };
+
+        $scope.changePassword = function(){
+
+          var myPopup = $ionicPopup.show({
+            templateUrl: 'templates/paren-password-popup.html',
+            title: 'Change my password',
+            scope: $scope,
+
+            buttons: [
+              { text: 'Cancel' },
+            ]
+          });
 
         };
    }])
+
    .controller('classroomCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray','$ionicHistory', '$rootScope',
         function ($scope, $state, $stateParams, $firebaseArray,$ionicHistory, $rootScope) {
             screen.lockOrientation('landscape');

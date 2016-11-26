@@ -105,11 +105,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
        templateUrl: 'Login/manageChild.html',
        controller: 'ChildCtrl'
     })
-    .state('editProfile', {
-        url: '/editProfile',
-        templateUrl: 'templates/edit-profile-popup.html',
-        controller: 'ChildCtrl'
-     })
+
+
+     .state('editParentUserName', {
+         url: '/editParentUserName',
+         templateUrl: 'templates/paren-username-popup.html',
+         controller: 'ParentProfileCtrl'
+      })
 
   .state('virtualcls', {
       url: '/virtualcls',
