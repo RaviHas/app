@@ -111,6 +111,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         controller: 'ChildCtrl'
     })
 
+   .state('editParentUserName', {
+         url: '/editParentUserName',
+         templateUrl: 'templates/paren-username-popup.html',
+         controller: 'ParentProfileCtrl'
+      })
+
   .state('virtualcls', {
       cache: false,
       url: '/virtualcls',

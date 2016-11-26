@@ -371,11 +371,33 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                 });
 
             };//$scope.addUserEmail
+            $scope.logout = function(){
+
+              var confirmPopup = $ionicPopup.confirm({
+                 title: 'Confirm Logout',
+                 template: 'Are you sure you want to logout from kiddo?'
+               });
+
+               confirmPopup.then(function(res) {
+                 if(res) {
+                   firebase.auth().signOut().then(function() {
+                      $state.go('login');
+                      console.log("logged out");
+                    }, function(error) {
+                      console.log(error);
+                    });
+                 } else {
+                   console.log('You are not sure');
+                 }
+               });
+
+            };
 
             $scope.userLogged = function () {
                 console.log("hjhjhjk--------------------");
-            }
+            };
         })
+
    .controller('ChildCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject',
    function ($scope, $firebaseArray, $ionicPopup, $firebaseObject) {
 
@@ -439,9 +461,8 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
            });
        };//delete child
    }])
-   .controller('ParentProfileCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject',
-      function ($scope, $firebaseArray, $ionicPopup, $firebaseObject) {
-
+   .controller('ParentProfileCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject','$state',
+function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state) {
           $scope.name = firebase.auth().currentUser.displayName;
           $scope.profileImage = firebase.auth().currentUser.photoURL;
           $scope.email = firebase.auth().currentUser.email;
@@ -450,12 +471,59 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
           console.log($scope.profileImage);
           console.log($scope.email);
 
-          $scope.editName = function () {
+        $scope.editName = function(){
+            console.log("edit name called---------------->");
+            $scope.name=firebase.auth().currentUser.displayName;
+            $scope.editUserName=$scope.name;
 
-          };
-      }])
-   .controller('classroomCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope',
-        function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope) {
+            var myPopup = $ionicPopup.show({
+              templateUrl: 'templates/paren-username-popup.html',
+              title: 'Edit my name',
+              scope: $scope,
+
+              buttons: [
+                { text: 'Cancel' },
+              ]
+            });
+
+            $scope.editUserDisplayName = function(editUserName){
+
+              var user = firebase.auth().currentUser;
+
+              var username = editUserName;
+              console.log(username);
+
+              user.updateProfile({
+                            displayName:username
+                          }).then(function() {
+                            console.log(firebase.auth().currentUser.displayName);
+                            myPopup.close();
+                            $state.go('parentProfile');
+                          }, function(error) {
+                            // An error happened.
+                            console.log(error);
+              });
+
+            };
+        };
+
+        $scope.changePassword = function(){
+
+          var myPopup = $ionicPopup.show({
+            templateUrl: 'templates/paren-password-popup.html',
+            title: 'Change my password',
+            scope: $scope,
+
+            buttons: [
+              { text: 'Cancel' },
+            ]
+          });
+
+        };
+   }])
+
+   .controller('classroomCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray','$ionicHistory', '$rootScope',
+        function ($scope, $state, $stateParams, $firebaseArray,$ionicHistory, $rootScope) {
             screen.lockOrientation('landscape');
             var ref = new Firebase('https://kiddo-56f35.firebaseio.com/course');
             var sync = $firebaseArray(ref);

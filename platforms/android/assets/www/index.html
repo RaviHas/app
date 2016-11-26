@@ -76,7 +76,9 @@
                       <ion-item href="#/registerChild" menu-close>Register a Child</ion-item>
                       <ion-item href="#/manageChild" menu-close>Manage a child</ion-item>
                       <ion-item href="#/" menu-close>About</ion-item>
-                      <ion-item href="#/" menu-close>Logout</ion-item>
+                      <div >
+                        <ion-item ng-controller="LoginCtrl" menu-close ng-click="logout()">Logout</ion-item>
+                      </div>
                   </ion-list>
               </ion-content>
           </ion-side-menu>
