@@ -23,6 +23,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     });
 })
 
+.controller('starterCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope', '$ionicSideMenuDelegate',
+function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope, $ionicSideMenuDelegate) {
+    $scope.onclick = function () {
+        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe");
+    }
+    $scope.parentProfile = function () {
+        console.log("---->parentProfile");
+        $state.go('parentProfile');
+    }
+    $scope.registerChild = function () {
+        console.log("---->registerChild");
+        $state.go('registerChild');
+    }
+    $scope.manageChild = function () {
+        console.log("---->manageChild");
+        $state.go('manageChild');
+    }
+
+}])
+
 .config(function ($ionicConfigProvider) {
     $ionicConfigProvider.tabs.position('bottom');
 })
