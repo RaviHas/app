@@ -1,0 +1,22 @@
+﻿<ion-view hide-nav-bar="true">
+    <img src="img/classroomq.jpg" alt="">
+    <ion-content scroll="false">
+        <ion-slide-box on-slide-changed="slideChanged(index)" auto-play="true" slide-interval="8000">
+            <ion-slide ng-repeat="b in book.images">
+                <div class="row">
+                    <div style="width:80px" align="center">
+                        <img src="img/previous-icon.png" style="margin-top:130px" ng-click="previous()" ng-show="slideIndex > 0" />
+                    </div>
+                    <div style="padding-bottom:10px;padding-top:5px">
+                        <div id="i" style="background-image: url({{b}}); height:300px; width:460px; background-repeat:no-repeat;box-shadow: 2px 2px 4px #000000; border-radius:10px; border:solid; border-color:white"></div>
+                    </div>
+                    <div style="width:80px;" align="center">
+                        <img src="img/next-icon.png" style="margin-top:130px" ng-click="next()" ng-show="slideIndex != book.images.length-1" />
+                        <img src="img/end-icon.png" style="margin-top:130px; width:50px" ng-click="backStoryBooks()" ng-show="slideIndex == book.images.length-1" />
+                        <img src="img/home-icon.png" style="margin-top:70px" ng-click="backStoryContent(book)" ng-show="!= book.images.length-1" />
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>

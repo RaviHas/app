@@ -194,6 +194,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
 
     })
+    .state('storybookautoreader', {
+        cache: false,
+        url: '/storybookautoreader',
+        cache: false,
+        templateUrl: 'templates/storybookautoreader.html',
+        controller: 'storybookreaderCtrl',
+        params: {
+            book: null
+        }
+
+    })
     .state('account', {
         url: '/account',
         templateUrl: 'templates/tab-account.html',
