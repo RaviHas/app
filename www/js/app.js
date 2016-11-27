@@ -101,6 +101,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
     })
 
   .state('tab.account', {
+      cache: false,
       url: '/account',
       views: {
           'tab-account': {

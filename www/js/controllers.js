@@ -151,7 +151,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
             console.log($scope.children);
 
             $scope.showSelectChild = function (selectchild) {
-                console.log('hiiiii child1', selectchild);
+                $scope.progress = [];
                 angular.forEach($scope.children, function (c) {
                     if (c.parent == $scope.userId) {
                         if (c.name == selectchild) {
@@ -172,8 +172,8 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
             var init = function () {
                 screen.unlockOrientation();
 
-
             };
+
             $scope.$on('$ionicView.enter', function () {
                 screen.unlockOrientation();
                 $ionicSideMenuDelegate.canDragContent(true);
