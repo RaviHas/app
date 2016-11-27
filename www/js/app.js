@@ -25,8 +25,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .controller('starterCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope', '$ionicSideMenuDelegate',
 function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope, $ionicSideMenuDelegate) {
-    $scope.onclick = function () {
-        console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqe");
+    $scope.contactUS = function () {
+        console.log("---->contactUS");
+        $state.go('contactUS');
     }
     $scope.parentProfile = function () {
         console.log("---->parentProfile");
@@ -116,6 +117,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
       controller: 'LoginCtrl'
   })
 
+  
   .state('registerChild', {
       url: '/registerChild',
       templateUrl: 'Login/registerChild.html',
@@ -136,7 +138,12 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
          url: '/editParentUserName',
          templateUrl: 'templates/paren-username-popup.html',
          controller: 'ParentProfileCtrl'
-      })
+   })
+  .state('contactUS', {
+      url: '/contactUS',
+      templateUrl: 'Login/contactus.html',
+      controller: 'contactCtrl'
+  })
 
   .state('virtualcls', {
       cache: false,
@@ -207,7 +214,6 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
     .state('storybookreader', {
         cache: false,
         url: '/storybookreader',
-        cache: false,
         templateUrl: 'templates/storybookreader.html',
         controller: 'storybookreaderCtrl',
         params: {
@@ -218,7 +224,6 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
     .state('storybookautoreader', {
         cache: false,
         url: '/storybookautoreader',
-        cache: false,
         templateUrl: 'templates/storybookautoreader.html',
         controller: 'storybookreaderCtrl',
         params: {

@@ -537,12 +537,15 @@ function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state,$ionicPla
 
         };
 
-        $ionicPlatform.registerBackButtonAction(function () {
-             $state.go('tab');
-        });
-    
 
-   }])
+}])
+
+   .controller('contactCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject', '$state', 
+function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state) {
+   
+
+}])
+
 
    .controller('classroomCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray','$ionicHistory', '$rootScope',
         function ($scope, $state, $stateParams, $firebaseArray,$ionicHistory, $rootScope) {
