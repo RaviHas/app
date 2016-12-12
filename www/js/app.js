@@ -245,7 +245,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
     .state('achievement', {
         url: '/achievement',
         templateUrl: 'templates/achievement.html',
-        //controller: 'achievement',
+        controller: 'achievementCtrl',
     });
 
     // if none of the above states are matched, use this as the fallback

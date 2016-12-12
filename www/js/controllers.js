@@ -17,9 +17,10 @@ angular.module('starter.controllers', ['firebase'])
 }])
 
 
-.controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope','$ionicSideMenuDelegate',
-function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope,$ionicSideMenuDelegate) {
-            $ionicSideMenuDelegate.canDragContent(true);
+.controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope','$ionicSideMenuDelegate','$ionicPlatform',
+function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope, $ionicSideMenuDelegate, $ionicPlatform) {
+            $scope.doSomething = function () {
+            }
             $ionicPlatform.registerBackButtonAction(function (e) {
                 ionic.Platform.exitApp();
             });
@@ -266,15 +267,12 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
 /*------------------------------------------login controller-------------------------------------------------*/
         .controller('LoginCtrl', function ($scope, $rootScope, $ionicPopup, $state, Child, User, $ionicSideMenuDelegate,$ionicPlatform) {
 
-            $scope.$on('$ionicView.enter', function () {
-                screen.unlockOrientation();
-                $ionicSideMenuDelegate.canDragContent(false);
-            });
 
+            $scope.doSomething = function () {
+            }  
             $ionicPlatform.registerBackButtonAction(function (e) {
                 ionic.Platform.exitApp();
             });
-
             $scope.user = User;
             $scope.child = Child;
             $rootScope.username = null;
@@ -682,6 +680,41 @@ function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state) {
 
         }
     };
+
+}])
+
+.controller('achievementCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope','$ionicSideMenuDelegate',
+function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope, $ionicSideMenuDelegate) {
+            var ref = new Firebase('https://kiddo-56f35.firebaseio.com/child');
+            var sync = $firebaseArray(ref);
+
+            var refp = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
+            var syncp = $firebaseArray(refp);
+            var count = 0;
+            $scope.bperformer = false;
+            $scope.qmaster = false;
+            console.log($rootScope.child.name);
+            syncp.$loaded()
+                       .then(function () {
+                           angular.forEach(syncp, function (c) {
+                               if (c.childname == $rootScope.child.name) {
+                                   count++;
+                                   if (c.mark == 5) {
+                                       $scope.bperformer = true;
+                                   }
+                                }
+                            })
+            console.log('count------------->', count);
+            if (count >= 3) {
+                $scope.qmaster = true;
+            }
+            console.log('qmaster------------->', $scope.qmaster);
+            console.log('bperformer------------->', $scope.bperformer);
+            console.log(sync);
+            console.log(syncp);
+              });
+           
+            
 
 }])
 
