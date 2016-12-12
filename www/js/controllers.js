@@ -20,6 +20,9 @@ angular.module('starter.controllers', ['firebase'])
 .controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope','$ionicSideMenuDelegate',
 function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope,$ionicSideMenuDelegate) {
             $ionicSideMenuDelegate.canDragContent(true);
+            $ionicPlatform.registerBackButtonAction(function (e) {
+                ionic.Platform.exitApp();
+            });
             var ref = new Firebase('https://kiddo-56f35.firebaseio.com/course').limitToLast(5);
             var sync = $firebaseArray(ref);
             $scope.courses = sync;
@@ -261,11 +264,15 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
             }])
 
 /*------------------------------------------login controller-------------------------------------------------*/
-        .controller('LoginCtrl', function ($scope, $rootScope, $ionicPopup, $state, Child, User, $ionicSideMenuDelegate) {
+        .controller('LoginCtrl', function ($scope, $rootScope, $ionicPopup, $state, Child, User, $ionicSideMenuDelegate,$ionicPlatform) {
 
             $scope.$on('$ionicView.enter', function () {
                 screen.unlockOrientation();
                 $ionicSideMenuDelegate.canDragContent(false);
+            });
+
+            $ionicPlatform.registerBackButtonAction(function (e) {
+                ionic.Platform.exitApp();
             });
 
             $scope.user = User;
