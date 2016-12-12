@@ -23,16 +23,21 @@
         <div class="list">
           <label class="item item-input item-floating-label">
             <span class="input-label">Username</span>
-            <input type="text" name="name" ng-required="true" placeholder="Username" ng-model="data.username">
+            <input type="email" name="name"  placeholder="Username" ng-model="data.username" required>
           </label>
 
           <label class="item item-input item-floating-label">
             <span class="input-label">Password</span>
-            <input type="password" placeholder="Password" ng-model="data.password">
+            <input type="password" placeholder="Password" ng-model="data.password" required>
           </label>
           <label class="item">
             <button class="button button-block button-calm" ng-click="login(data)">Sign in</button>
           </label>
+          <div ng-controller="PasswordCtrl">
+            <button class="button button-clear button-small button-calm"  ng-click="forgotPassword()">
+              Forgot my password
+            </button>
+          </div>
 
           <label class="item">
           <p>Are you new?</p>

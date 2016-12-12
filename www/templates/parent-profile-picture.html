@@ -1,0 +1,24 @@
+﻿<ion-view>
+    <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+    </ion-nav-buttons>
+    <ion-nav-title right-buttons="rightButtons">
+        <img class="title-image" src="img/logo.png" />
+    </ion-nav-title>
+    <ion-content class="padding">
+        <div class="list card">
+
+            <div class="item item-avatar">
+                <img src="img\smiley.jpg">
+                <h2>Change my profile picture!</h2>
+            </div>
+            <div>
+                
+            <div class="item item-body" >   
+                <input type="file" name="pic" accept="image/*">          
+                <button class="button button-block button-calm" ng-click="doGetImage()">Upload Image</button>
+            </div>  <!--div class="item item-body"-->
+        </div>
+        </div>
+    </ion-content>
+</ion-view>

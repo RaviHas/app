@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
+angular.module('starter', ['ionic',  'starter.controllers', 'starter.services', 'firebase', 'ngCordova'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -105,7 +105,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
        templateUrl: 'Login/manageChild.html',
        controller: 'ChildCtrl'
     })
-
+    .state('editProfile', {
+        url: '/editProfile',
+        templateUrl: 'templates/edit-profile-popup.html',
+        controller: 'ChildCtrl'
+     })
 
      .state('editParentUserName', {
          url: '/editParentUserName',
@@ -161,6 +165,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         controller: 'classroomCtrl'
 
     })
+    .state('parentprofilepicture', {
+        url: '/parentprofilepicture',
+        templateUrl: 'templates/parent-profile-picture.html',
+        controller: 'ParentProfileCtrl'
+
+    })
      .state('title', {
          cache: false,
          url: '/course/:grade/:sub',
@@ -188,6 +198,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
 
     })
+
     .state('account', {
         url: '/account',
         templateUrl: 'templates/tab-account.html',
@@ -198,12 +209,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         url: '/quiz',
         templateUrl: 'templates/quiz.html',
         directive: 'quiz',
-    })
-    .state('achievement', {
-        url: '/achievement',
-        templateUrl: 'templates/achievement.html',
-        //controller: 'achievement',
-    });
+     });
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');

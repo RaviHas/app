@@ -20,20 +20,20 @@
         <div class="list">
           <label class="item item-input item-floating-label">
             <span class="input-label">Username</span>
-            <input type="text" placeholder="Username" ng-model="data.username">
+            <input type="text" placeholder="Username" ng-model="data.username" required>
           </label>
 
           <label class="item item-input item-floating-label">
             <span class="input-label">Email</span>
-            <input type="email" placeholder="Email" ng-model="data.email">
+            <input type="email" placeholder="Email" ng-model="data.email" required>
           </label>
           <label class="item item-input item-floating-label">
             <span class="input-label">Password</span>
-            <input type="password" placeholder="Password" ng-model="data.password">
+            <input type="password" placeholder="Password" ng-model="data.password"  id="password" required>
           </label>
           <label class="item item-input item-floating-label">
             <span class="input-label">Confirm Password</span>
-            <input type="password" placeholder="Confirm Password" ng-model="data.password2">
+            <input type="password" placeholder="Confirm Password" ng-model="data.password2" id="confirm_password"  required >
           </label>
           <label class="item">
             <button class="button button-block button-calm" ng-click="addUserEmail(data)">Sign Up</button>

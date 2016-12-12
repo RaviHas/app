@@ -27,7 +27,20 @@
         },
         "cordova-plugin-screen-orientation": {
             "PACKAGE_NAME": "io.cordova.myapp88c2ef"
+        },
+        "cordova-plugin-image-picker": {
+            "PACKAGE_NAME": "io.cordova.myapp88c2ef"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "io.cordova.myapp88c2ef"
+        },
+        "com-badrit-base64": {
+            "PACKAGE_NAME": "io.cordova.myapp88c2ef"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "io.cordova.myapp88c2ef"
+        }
+    }
 }
