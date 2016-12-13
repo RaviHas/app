@@ -251,6 +251,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
         directive: 'quiz',
     })
     .state('achievement', {
+        cache: false,
         url: '/achievement',
         templateUrl: 'templates/achievement.html',
         controller: 'achievementCtrl',

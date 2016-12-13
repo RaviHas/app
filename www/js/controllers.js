@@ -137,7 +137,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                             $scope.allprogress.push(syncp[i]);
                         }
                     }
-           });
+                });
 
             $scope.children.$loaded()
               .then(function () {
@@ -170,52 +170,8 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                         }
                     }
                 })
+
             }
-
-  var ref=new Firebase('https://kiddo-56f35.firebaseio.com/child');
-  var sync = $firebaseArray(ref);
-
-  var refp = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
-  var syncp = $firebaseArray(refp);
-
-  $scope.allprogress = syncp;
-  $scope.children=sync;
-  $scope.userId=firebase.auth().currentUser.uid;
-  $scope.childNames = [];
-  $scope.progress = [];
-
-  $scope.children.$loaded()
-    .then(function () {
-        angular.forEach($scope.children, function (c) {
-            if (c.parent==$scope.userId) {
-                $scope.childNames.push(c);
-                console.log('countdsddsd', $scope.childNames);
-                $scope.default=$scope.childNames[0];
-                console.log('default------------->',$scope.childNames[0]);
-            }
-        })
-    });
-
-
-  console.log($scope.children);
-
-  $scope.showSelectChild = function (selectchild) {
-      console.log('hiiiii child1', selectchild);
-      angular.forEach($scope.children, function (c) {
-          if (c.parent == $scope.userId) {
-              if (c.name == selectchild) {
-                  $rootScope.child = c;
-                  var i;
-                  for (i = 0; i < syncp.length; i++) {
-                      if (syncp[i].childname == selectchild && syncp[i].parentid == $scope.userId) {
-                          $scope.progress.push(syncp[i]);
-                      }
-                  }
-                  console.log('rooot child', c);
-              }
-          }
-      })
-  }
 
             var init = function () {
                 screen.unlockOrientation();
@@ -234,8 +190,6 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                 console.log('hiii child', $scope.child.name);
             };
         }])
-
-
 
     .controller('storybookCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope','$ionicLoading',
 	  function ($scope, $firebaseArray, $state,$stateParams, $rootScope,$ionicLoading) {
@@ -302,8 +256,8 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                     $state.go('storybookcontent', { obj: Story });
                 }
 
-                $scope.backStoryBooks = function () {
-                    $state.go('storybook');
+                $scope.backStoryBooks = function (Story) {
+                    $state.go('storybookcontent', { obj: Story });
                 }
 
             }])
@@ -332,14 +286,14 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                 {
                     if (!filter.test(data.email)) {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Invalid e-mail'
                         });//alert
                     }
 
                     if (pass == null) {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Please enter a password'
                         });//alert
                     }
@@ -396,21 +350,21 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                 {
                     if (data.name1 == null) {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Please enter a name.'
                         });//alert}
                     }
                     else if (!letterNumber.test(data.name1))
                     {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Please enter a valid name starting with a letter'
                         });//alert}
                     }
                     else if (data.grade == '0' || data.grade == null)
                     {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Please select a grade'
                         });//alert}
                     }
@@ -445,7 +399,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                     if (!letterNumber.test(data.username) || data.username == null)
                     {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Please enter a valid username starting with a letter'
                         });//alert
                     }
@@ -453,19 +407,19 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                     if (!filter.test(data.email))
                     {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Invalid e-mail'
                         });//alert
                     }
                     if (data.password ==null) {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Please enter a password'
                         });//alert
                     }
                     if (data.password != data.password2) {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Password confirmation does not match'
                         });//alert
                     }
@@ -576,7 +530,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                       {
                           
                           $ionicPopup.alert({
-                              title: 'Error',
+                              title: 'Alert',
                               template: 'Please enter a valid username'
                           });//alert
 
@@ -706,7 +660,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                 if (!letterNumber.test(username)||username==null)
                 {
                     $ionicPopup.alert({
-                        title: 'Error',
+                        title: 'Alert',
                         template: 'Please enter a valid username'
                     });//alert
                 }
@@ -753,7 +707,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                     if(newPw==null)
                     {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Please enter a password'
                         });//alert
                     }
@@ -761,7 +715,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
                     if(newPw!=confPw)
                     {
                         $ionicPopup.alert({
-                            title: 'Error',
+                            title: 'Alert',
                             template: 'Password confirmation does not match'
                         });//alert
                     }
@@ -780,7 +734,7 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
 
                 }, function(error) {
                     var alertPopup = $ionicPopup.alert({
-                        title: 'Error!',
+                        title: 'Alert',
                         template: 'Password change failed!'
                     });
                 });
