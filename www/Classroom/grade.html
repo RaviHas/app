@@ -11,10 +11,12 @@
                         <a href="#/course/2"> <img src="img/two.png" style="width:120px"></a>
                     </div>
                     <div class="col">
-                        <a href="#/course/3"> <img src="img/three.png" style="width:120px"></a>
+                        <a ng-show="!lockg3" href="#/course/3"> <img src="img/three.png" style="width:120px"></a>
+                        <a ng-show="lockg3"> <img src="img/gtlock.png" style="width:120px"></a>
                     </div>
                     <div class="col">
-                        <a href="#/course/4"> <img src="img/four.png" style="width:120px"></a>
+                        <a ng-show="!lockg4" href="#/course/4"> <img src="img/four.png" style="width:120px"></a>
+                        <a ng-show="lockg4"> <img src="img/gflock.png" style="width:120px"></a>
                     </div>
                 </div>
                 <div class="col"></div>

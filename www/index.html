@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="starter" ng-controller="starterCtrl">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
@@ -7,6 +7,7 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/angular-block-ui/dist/angular-block-ui.min.css" />
     <link rel="shortcut icon" href="">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -37,7 +38,7 @@
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
-
+    <script src="lib/angular-block-ui/dist/angular-block-ui.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
     <script>
   // Initialize Firebase
@@ -75,10 +76,10 @@
                           </a>
                       </ion-list>
                         </div>
-                      <ion-item href="#/parentProfile" menu-close>Edit my profile</ion-item>
-                      <ion-item href="#/registerChild" menu-close>Register a Child</ion-item>
-                      <ion-item href="#/manageChild" menu-close>Manage a child</ion-item>
-                      <ion-item href="#/" menu-close>About</ion-item>
+                      <ion-item  ng-click="parentProfile()" menu-close>Edit my profile</ion-item>
+                      <ion-item  ng-click="registerChild()" menu-close>Register a Child</ion-item>
+                      <ion-item  ng-click="manageChild()" menu-close>Manage a child</ion-item>
+                      <ion-item  ng-click="contactUS()" menu-close>Contact US</ion-item>
                       <div >
                         <ion-item ng-controller="LoginCtrl" menu-close ng-click="logout()">Logout</ion-item>
                       </div>

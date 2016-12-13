@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['firebase'])
 
 .filter('trusted', ['$sce', function ($sce) {
-    return function(url) {
+    return function (url) {
         return $sce.trustAsResourceUrl(url);
     };
 }])
@@ -16,9 +16,10 @@ angular.module('starter.controllers', ['firebase'])
     return $firebaseArray(UserRef);
 }])
 
-.controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope',
-        function ($scope, $state, $stateParams, $firebaseArray,$ionicHistory, $rootScope) {
-            screen.lockOrientation('landscape');
+
+.controller('DashCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$ionicHistory', '$rootScope','$ionicSideMenuDelegate',
+function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScope,$ionicSideMenuDelegate) {
+            $ionicSideMenuDelegate.canDragContent(true);
             var ref = new Firebase('https://kiddo-56f35.firebaseio.com/course').limitToLast(5);
             var sync = $firebaseArray(ref);
             $scope.courses = sync;
@@ -76,11 +77,11 @@ angular.module('starter.controllers', ['firebase'])
         $scope.sendReply = function (chats, reply) {
 
             $scope.replys.$add({
-                    chat:chats.$id,
-                    user: firebase.auth().currentUser.displayName,
-                    img: firebase.auth().currentUser.photoURL,
-                    reply: reply.message,
-                });
+                chat: chats.$id,
+                user: firebase.auth().currentUser.displayName,
+                img: firebase.auth().currentUser.photoURL,
+                reply: reply.message,
+            });
             reply.message = "";
         }
         $scope.deletereply = function (reply) {
@@ -89,17 +90,83 @@ angular.module('starter.controllers', ['firebase'])
 
 
     }])
-.controller('VirtualclsCtrl', function ($scope, $state) {
-    screen.lockOrientation('landscape');
 
-    $scope.$on('$ionicView.leave', function () {
-       // screen.unlockOrientation();
-       // $ionicSideMenuDelegate.canDragContent(true);
-    });
+.controller('VirtualclsCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$rootScope', '$ionicHistory', '$ionicSideMenuDelegate',
+        function ($scope, $state, $stateParams, $firebaseArray, $rootScope, $ionicHistory, $ionicSideMenuDelegate) {
+            $ionicSideMenuDelegate.canDragContent(false);
+            screen.lockOrientation('landscape');
+            console.log('virtualclz-->', $rootScope.child);
+            if ($rootScope.child.grade == 2) {
+                $scope.lockg3 = true;
+                $scope.lockg4 = true;
+            }
+            else if ($rootScope.child.grade == 3) {
+                $scope.lockg3 = false;
+                $scope.lockg4 = true;
+            }
+            else if ($rootScope.child.grade == 4) {
+                $scope.lockg3 = false;
+                $scope.lockg4 = false;
+            }
+        }])
 
-})
+.controller('AccountCtrl', ['$scope', '$state', '$stateParams', '$firebaseArray', '$rootScope',
+        function ($scope, $state, $stateParams, $firebaseArray, $rootScope) {
+            var ref = new Firebase('https://kiddo-56f35.firebaseio.com/child');
+            var sync = $firebaseArray(ref);
 
-.controller('AccountCtrl',function ($scope,$rootScope, $state,$firebaseArray, $ionicSideMenuDelegate) {
+            var refp = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
+            var syncp = $firebaseArray(refp);
+
+            $scope.allprogress = [];
+            $scope.prg = syncp;
+            $scope.children = sync;
+            $scope.userId = firebase.auth().currentUser.uid;
+            $scope.childNames = [];
+            $scope.progress = [];
+
+            $scope.prg.$loaded()
+                .then(function () {
+                    var i;
+                    for (i = 0; i < syncp.length; i++) {
+                        if (syncp[i].parentid == $scope.userId) {
+                            $scope.allprogress.push(syncp[i]);
+                        }
+                    }
+           });
+
+            $scope.children.$loaded()
+              .then(function () {
+                  angular.forEach($scope.children, function (c) {
+                      if (c.parent == $scope.userId) {
+                          $scope.childNames.push(c);
+                          console.log('countdsddsd', $scope.childNames);
+                          $scope.default = $scope.childNames[0];
+                          console.log('default------------->', $scope.childNames[0]);
+                      }
+                  })
+              });
+
+
+            console.log($scope.children);
+
+            $scope.showSelectChild = function (selectchild) {
+                $scope.progress = [];
+                angular.forEach($scope.children, function (c) {
+                    if (c.parent == $scope.userId) {
+                        if (c.name == selectchild) {
+                            $rootScope.child = c;
+                            var i;
+                            for (i = 0; i < syncp.length; i++) {
+                                if (syncp[i].childname == selectchild && syncp[i].parentid == $scope.userId) {
+                                    $scope.progress.push(syncp[i]);
+                                }
+                            }
+                            console.log('rooot child', c);
+                        }
+                    }
+                })
+            }
 
   var ref=new Firebase('https://kiddo-56f35.firebaseio.com/child');
   var sync = $firebaseArray(ref);
@@ -122,7 +189,8 @@ angular.module('starter.controllers', ['firebase'])
                 $scope.default=$scope.childNames[0];
                 console.log('default------------->',$scope.childNames[0]);
             }
-        })});
+        })
+    });
 
 
   console.log($scope.children);
@@ -143,43 +211,52 @@ angular.module('starter.controllers', ['firebase'])
               }
           }
       })
-
   }
 
-    var init = function () {
-      screen.unlockOrientation();
+            var init = function () {
+                screen.unlockOrientation();
 
+            };
 
-    };
-    $scope.$on('$ionicView.enter', function () {
-        //screen.unlockOrientation();
-        $ionicSideMenuDelegate.canDragContent(true);
-    });
-    $scope.goToCls = function () {
-        $state.go('virtualcls');
-        $ionicSideMenuDelegate.canDragContent(false)
-        //screen.lockOrientation('landscape');
-        //$rootScope.child = $scope.child.child;
-        console.log('hiii child', $scope.child.name);
-    };
-
-
-})
+            $scope.$on('$ionicView.enter', function () {
+                screen.unlockOrientation();
+                $ionicSideMenuDelegate.canDragContent(true);
+            });
+            $scope.goToCls = function () {
+                $state.go('virtualcls');
+                $ionicSideMenuDelegate.canDragContent(false)
+                //screen.lockOrientation('landscape');
+                //$rootScope.child = $scope.child.child;
+                console.log('hiii child', $scope.child.name);
+            };
+        }])
 
 
 
-    .controller('storybookCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope',
-	  function ($scope, $firebaseArray, $state, $rootScope) {
-	      screen.lockOrientation('landscape');
-
+    .controller('storybookCtrl', ['$scope', '$firebaseArray', '$state', '$stateParams', '$rootScope','$ionicLoading',
+	  function ($scope, $firebaseArray, $state,$stateParams, $rootScope,$ionicLoading) {
+	      $ionicLoading.show({
+	          template: '<div class="pace pace-active"><div class="pace-progress" data-progress="50" data-progress-text="50%" style="-webkit-transform: translate3d(50%, 0px, 0px); -ms-transform: translate3d(50%, 0px, 0px); transform: translate3d(50%, 0px, 0px);"><div class="pace-progress-inner"></div></div><div class="pace-activity"></div></div>',
+	      });
 	      var ref = new Firebase('https://kiddo-56f35.firebaseio.com/storybook');
-          var sync = $firebaseArray(ref);
-          $scope.storybooks = sync;
+	      var sync = $firebaseArray(ref);
+	      $scope.storybooks = sync;
+	      var sbooks = sync;
 
-          $scope.viewBook = function (storyBook) {
-              $state.go('storybookcontent', { obj: storyBook }, {reload:true});
-              console.log(storyBook);
-          }
+	      sbooks.$loaded()
+            .then(function () {
+                $ionicLoading.hide();
+            });
+
+          
+
+
+
+	     // $scope.hide();
+	      $scope.viewBook = function (storyBook) {
+	          $state.go('storybookcontent', { obj: storyBook }, { reload: true });
+	          console.log(storyBook);
+	      }
 
 	  }])
 
@@ -188,43 +265,52 @@ angular.module('starter.controllers', ['firebase'])
             screen.lockOrientation('landscape');
             $scope.storybook = $stateParams.obj;
 
-        $scope.readBook = function (Book) {
-            $state.go('storybookreader', { book: Book });
-            console.log(Book);
-        }
-
-      }])
-
-        .controller('storybookreaderCtrl',['$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate',
-            function ($scope, $state, $stateParams, $ionicSlideBoxDelegate) {
-            screen.lockOrientation('landscape');
-            $scope.book = $stateParams.book;
-
-            // Called each time the slide changes
-            $scope.slideChanged = function(index) {
-                $scope.slideIndex = index;
-            };
-
-            $scope.next = function () {
-                $ionicSlideBoxDelegate.next();
-            };
-
-            $scope.previous = function () {
-                $ionicSlideBoxDelegate.previous();
-            };
-
-            $scope.backStoryContent = function (Story) {
-                $state.go('storybookcontent', { obj: Story });
+            $scope.readBook = function (Book) {
+                $state.go('storybookreader', { book: Book });
+                console.log(Book);
             }
 
-            $scope.backStoryBooks = function () {
-                $state.go('storybook');
+            $scope.autoPlay = function (Book) {
+                $state.go('storybookautoreader', { book: Book });
+                console.log(Book);
             }
-
         }])
 
+        .controller('storybookreaderCtrl', ['$scope', '$state', '$stateParams', '$ionicSlideBoxDelegate',
+            function ($scope, $state, $stateParams, $ionicSlideBoxDelegate) {
+                screen.lockOrientation('landscape');
+                $scope.book = $stateParams.book;
+
+                // Called each time the slide changes
+                $scope.slideChanged = function (index) {
+                    $scope.slideIndex = index;
+                };
+
+                $scope.next = function () {
+                    $ionicSlideBoxDelegate.next();
+                };
+
+                $scope.previous = function () {
+                    $ionicSlideBoxDelegate.previous();
+                };
+
+                $scope.backStoryContent = function (Story) {
+                    $state.go('storybookcontent', { obj: Story });
+                }
+
+                $scope.backStoryBooks = function () {
+                    $state.go('storybook');
+                }
+
+            }])
+
 /*------------------------------------------login controller-------------------------------------------------*/
-        .controller('LoginCtrl', function ($scope,$rootScope,$ionicPopup, $state, Child,User) {
+        .controller('LoginCtrl', function ($scope, $rootScope, $ionicPopup, $state, Child, User, $ionicSideMenuDelegate) {
+
+            $scope.$on('$ionicView.enter', function () {
+                screen.unlockOrientation();
+                $ionicSideMenuDelegate.canDragContent(false);
+            });
 
             $scope.user = User;
             $scope.child = Child;
@@ -268,8 +354,8 @@ angular.module('starter.controllers', ['firebase'])
                         var userId = user.uid;
                         console.log(userId);
 
-                        $rootScope.username=firebase.auth().currentUser.displayName;
-                        $rootScope.profileImage=firebase.auth().currentUser.photoURL;
+                    $rootScope.username = firebase.auth().currentUser.displayName;
+                    $rootScope.profileImage = firebase.auth().currentUser.photoURL;
 
                     }).catch(function(error) {
                         // Handle Errors here.
@@ -451,6 +537,7 @@ angular.module('starter.controllers', ['firebase'])
                 console.log("hjhjhjk--------------------");
             };
         })
+
    .controller('ChildCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject', '$cordovaImagePicker',
    function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $cordovaImagePicker) {
 
@@ -585,10 +672,9 @@ angular.module('starter.controllers', ['firebase'])
         $scope.name=firebase.auth().currentUser.displayName;
         $scope.profileImage=firebase.auth().currentUser.photoURL;
         $scope.email=firebase.auth().currentUser.email;
-
-        console.log($scope.name);
-        console.log($scope.profileImage);
-        console.log($scope.email);
+          console.log($scope.name);
+          console.log($scope.profileImage);
+          console.log($scope.email);
 
         $scope.editName = function(){
             console.log("edit name called---------------->");
@@ -706,7 +792,6 @@ angular.module('starter.controllers', ['firebase'])
           };
 
         };
-
         $scope.loadChangeProfile = function () {
            
             var myPopup = $ionicPopup.show({
@@ -759,11 +844,15 @@ angular.module('starter.controllers', ['firebase'])
             };
 
         };
-
         
+}])
 
-        
-   }])
+   .controller('contactCtrl', ['$scope', '$firebaseArray', '$ionicPopup', '$firebaseObject', '$state', 
+    function ($scope, $firebaseArray, $ionicPopup, $firebaseObject, $state) {
+   
+
+    }])
+
    .controller('PasswordCtrl',['$scope', '$state', '$stateParams', '$firebaseArray','$ionicPopup', '$rootScope',
     function($scope, $state, $stateParams, $firebaseArray,$ionicPopup, $rootScope){
 
@@ -801,8 +890,6 @@ angular.module('starter.controllers', ['firebase'])
             $scope.grade = $stateParams.grade;
             $scope.subject = $stateParams.sub;
 
-            console.log($scope.course);
-
             $scope.viewcourse = function (Course) {
                 $state.go('course', { pcourse: Course });
                 console.log('CourseTogo------>', Course);
@@ -810,8 +897,8 @@ angular.module('starter.controllers', ['firebase'])
 
 
         }])
-    .controller('courseCtrl', ['$scope','$rootScope', '$state', '$stateParams','$ionicHistory','$firebase','$firebaseArray',
-        function ($scope,$rootScope, $state,  $stateParams, $ionicHistory, $firebase, $firebaseArray) {
+    .controller('courseCtrl', ['$scope', '$rootScope', '$state', '$stateParams', '$ionicHistory', '$firebase', '$firebaseArray', '$ionicPopup',
+        function ($scope, $rootScope, $state, $stateParams, $ionicHistory, $firebase, $firebaseArray, $ionicPopup) {
             screen.lockOrientation('landscape');
             $scope.course = $stateParams.pcourse;
             console.log('CourseTocome------>', $scope.course);
@@ -819,8 +906,35 @@ angular.module('starter.controllers', ['firebase'])
             $rootScope.subject = $scope.course.subject;
             $rootScope.title = $scope.course.title;
 
+            var ref1 = new Firebase('https://kiddo-56f35.firebaseio.com/quiz');
+            var sync1 = $firebaseArray(ref1);
+            var quiz = sync1;
+            $scope.status = false;
+
+            quiz.$loaded()
+               .then(function () {
+                   angular.forEach(quiz, function (q) {
+                       if (q.grade == $rootScope.grade && q.subject == $rootScope.subject && q.title == $rootScope.title) {
+                           $scope.status = true;
+                           console.log('Status', $scope.status);
+                       }
+                   })
+               });
+
             $scope.quize = function (Course) {
-                $state.go('quiz');
+                if ($scope.status == true)
+                    $state.go('quiz');
+                else {
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Alert',
+                        template: 'There is no quiz available right now. Please try again later.'
+                    });
+
+                    alertPopup.then(function (res) {
+                        console.log('Thank you for not eating my delicious ice cream cone');
+                    });
+
+                }
                 console.log('quizeTogo------>', Course);
             }
 
@@ -867,7 +981,7 @@ angular.module('starter.controllers', ['firebase'])
     var refmark = new Firebase('https://kiddo-56f35.firebaseio.com/progress');
     var syncmark = $firebaseArray(refmark);
     var date = new Date();
-   // date = $moment().format('MM/DD/YYYY');
+    // date = $moment().format('MM/DD/YYYY');
     console.log('date---->', date);
 
 
@@ -922,7 +1036,7 @@ angular.module('starter.controllers', ['firebase'])
 
                     scope.questiontype = q.type;
                     scope.question = q.question;
-                    scope.options =[q.answer1,q.answer2,q.answer3,q.answer4];
+                    scope.options = [q.answer1, q.answer2, q.answer3, q.answer4];
                     scope.answer = q.canswer;
                     scope.answerMode = true;
                     console.log(q);
@@ -937,7 +1051,7 @@ angular.module('starter.controllers', ['firebase'])
 
                 var ans = $('input[name=answer]:checked').val();
 
-                if (ans == scope.options[scope.answer-1]) {
+                if (ans == scope.options[scope.answer - 1]) {
                     scope.score++;
                     scope.correctAns = true;
                 } else {
