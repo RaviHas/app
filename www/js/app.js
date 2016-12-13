@@ -249,7 +249,13 @@ function ($scope, $state, $stateParams, $firebaseArray, $ionicHistory, $rootScop
         url: '/quiz',
         templateUrl: 'templates/quiz.html',
         directive: 'quiz',
-     });
+    })
+    .state('achievement', {
+        url: '/achievement',
+        templateUrl: 'templates/achievement.html',
+        controller: 'achievementCtrl',
+    });
+
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

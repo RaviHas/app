@@ -5682,8 +5682,7 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
   .loading-container.active {
     opacity: 1; }
   .loading-container .loading {
-    padding: 20px;
-    border-radius: 5px;
+
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
     text-align: center;
@@ -5695,6 +5694,8 @@ ion-tabs.tabs-striped.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs
 /**
  * Items
  * --------------------------------------------------
+    padding: 0px;
+    border-radius: 5px;
  */
 .item {
   border-color: #ddd;
